@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { Toaster } from 'react-hot-toast';
 
 import Routes from 'routes/Routes';
 
@@ -10,6 +11,7 @@ const App: FC = () => {
 		<ErrorBoundary>
 			<Header />
 			<Routes />
+			<Toaster />
 		</ErrorBoundary>
 	);
 };
