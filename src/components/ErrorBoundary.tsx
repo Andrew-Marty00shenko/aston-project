@@ -17,13 +17,9 @@ class ErrorBoundary extends Component<Props, State> {
 		return { hasError: true };
 	}
 
-	public componentDidCatch(error: Error) {
-		throw new Error('Uncaught error:', error);
-	}
-
 	public render() {
 		if (this.state.hasError) {
-			return <h1>Sorry.. there was an error</h1>;
+			return <h1 className="text-center">Упс! Произошла какая-то ошибка!</h1>;
 		}
 
 		return this.props.children;

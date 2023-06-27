@@ -7,12 +7,10 @@ import Header from 'components/Header';
 
 const App: FC = () => {
 	return (
-		<div className=" bg-white">
-			<ErrorBoundary>
-				<Header />
-				<Routes />
-			</ErrorBoundary>
-		</div>
+		<ErrorBoundary>
+			<Header />
+			<Routes />
+		</ErrorBoundary>
 	);
 };
 

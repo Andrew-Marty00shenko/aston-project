@@ -18,5 +18,5 @@
 		"baseUrl": "src",
 		"typeRoots": ["src/types"]
 	},
-	"include": ["src", "types"]
+	"include": ["src", "types.d.ts"]
 }
