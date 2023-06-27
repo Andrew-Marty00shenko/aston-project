@@ -1,5 +1,3 @@
-import { FC } from 'react';
-
 import ArrowDownSvg from 'assets/icons/arrow-down.svg';
 
 interface Props {
@@ -7,7 +5,7 @@ interface Props {
 	value: string;
 }
 
-const SelectField: FC<Props> = ({ label, value }) => {
+const SelectField = ({ label, value }: Props) => {
 	return (
 		<div className="w-full cursor-pointer">
 			<label htmlFor="">{label}</label>
