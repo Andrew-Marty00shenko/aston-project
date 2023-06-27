@@ -40,34 +40,14 @@
 	},
 	"rules": {
 		"linebreak-style": "off",
-		"@typescript-eslint/no-misused-promises": [
-			2,
-			{
-				"checksVoidReturn": {
-					"attributes": false
-				}
-			}
-		],
-		"import/no-extraneous-dependencies": [
-			"error",
-			{
-				"devDependencies": [
-					"test.{ts,tsx}", // repos with a single test file
-					"test-*.{ts,tsx}", // repos with multiple top-level test files
-					"**/*{.,_}{test,spec}.{ts,tsx}", // tests where the extension or filename suffix denotes that it is a test
-					"**/jest.config.ts", // jest config
-					"**/jest.setup.ts" // jest setup
-				],
-				"optionalDependencies": false
-			}
-		],
+		"import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
 		"@typescript-eslint/no-unsafe-assignment": "off",
 		// Configure prettier
 		"prettier/prettier": [
 			"error",
 			{
 				"printWidth": 80,
-				"endOfLine": "auto",
+				"endOfLine": "lf",
 				"singleQuote": true,
 				"tabWidth": 2,
 				"indentStyle": "space",
@@ -76,7 +56,7 @@
 			}
 		],
 		// Disallow the `any` type.
-		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/no-explicit-any": "warn",
 		"@typescript-eslint/ban-types": [
 			"error",
 			{

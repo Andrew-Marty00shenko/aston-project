@@ -1,12 +1,5 @@
-import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { loginAction } from 'redux/actions/authActions';
-
-import { loginValidation } from 'utils/validation/loginValidation';
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
 
 import InputField from 'elements/InputField';
 import Button from 'elements/Button';
@@ -14,60 +7,17 @@ import Button from 'elements/Button';
 import EmailSvg from 'assets/icons/email.svg';
 import LockSvg from 'assets/icons/lock.svg';
 
-export interface LoginForm {
-	email: string;
-	password: string;
-}
-
-const Login = () => {
-	const navigate = useNavigate();
-	const dispatch = useAppDispatch();
-	const { loading, isAuth } = useAppSelector((state) => state.auth);
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<LoginForm>({
-		resolver: yupResolver(loginValidation),
-	});
-
-	useEffect(() => {
-		if (isAuth) {
-			navigate('/');
-		}
-	}, [isAuth]);
-
-	const loginUser = async (data: LoginForm) => {
-		await dispatch(loginAction(data));
-	};
-
+const Login: FC = () => {
 	return (
-		<form
-			className="w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-8 bg-white rounded-2xl"
-			onSubmit={handleSubmit(loginUser)}
-		>
+		<form className="w-[400px] mx-auto mt-28 p-8 bg-white rounded-2xl">
 			<h2 className="text-center text-lg">Войдите в аккаунт</h2>
 
 			<div className="mt-5">
-				<InputField
-					name="email"
-					type="email"
-					label="Email"
-					icon={EmailSvg}
-					register={register}
-					error={errors.email}
-				/>
+				<InputField type="email" label="Email" icon={EmailSvg} />
 			</div>
 
 			<div className="mt-5">
-				<InputField
-					name="password"
-					type="password"
-					label="Пароль"
-					icon={LockSvg}
-					register={register}
-					error={errors.password}
-				/>
+				<InputField type="password" label="Пароль" icon={LockSvg} />
 			</div>
 
 			<p className="mt-5">
@@ -78,9 +28,7 @@ const Login = () => {
 			</p>
 
 			<div className="mt-5">
-				<Button disabled={loading} className="w-full">
-					{loading ? 'загрузка...' : 'Войти'}
-				</Button>
+				<Button className="w-full">Войти</Button>
 			</div>
 		</form>
 	);

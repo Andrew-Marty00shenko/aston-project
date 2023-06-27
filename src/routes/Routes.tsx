@@ -1,20 +1,12 @@
-import { lazy, Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { FC } from 'react';
 
-const Main = lazy(() => import('pages/Public/Main'));
-const Login = lazy(() => import('pages/Public/Login'));
-const Registration = lazy(() => import('pages/Public/Registration'));
+import Public from './Public';
+import Private from './Private';
 
-const Public = () => {
-	return (
-		<Suspense fallback={<div>Загрузка...</div>}>
-			<Routes>
-				<Route path="/" element={<Main />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/registration" element={<Registration />} />
-			</Routes>
-		</Suspense>
-	);
+const Routes: FC = () => {
+	const isAuth = false;
+
+	return !isAuth ? <Public /> : <Private />;
 };
 
-export default Public;
+export default Routes;

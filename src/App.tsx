@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { Toaster } from 'react-hot-toast';
 
 import Routes from 'routes/Routes';
@@ -5,7 +6,7 @@ import Routes from 'routes/Routes';
 import ErrorBoundary from 'components/ErrorBoundary';
 import Header from 'components/Header';
 
-const App = () => {
+const App: FC = () => {
 	return (
 		<ErrorBoundary>
 			<Header />
