@@ -11,6 +11,7 @@ module.exports = {
 		backgroundColor: {
 			white: '#ffffff',
 			black: '#141414',
+			'black-opacity': 'rgba(0,0,0,0.8)',
 			orange: '#e84e0e',
 			gray: '#f4f4f4',
 		},
