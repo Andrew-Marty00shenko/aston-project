@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
+
+import { loginValidation } from './loginValidation';
 
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { loginAction } from 'redux/actions/authActions';
@@ -16,13 +17,6 @@ export interface LoginForm {
 	email: string;
 	password: string;
 }
-
-const loginValidation = Yup.object().shape({
-	email: Yup.string()
-		.required('*поле обязательно для заполнения')
-		.email('*поле обязательно для заполнения'),
-	password: Yup.string().required('*поле обязательно для заполнения'),
-});
 
 const Login = () => {
 	const dispatch = useAppDispatch();

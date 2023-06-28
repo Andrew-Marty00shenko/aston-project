@@ -2,8 +2,10 @@ import { FC, lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 const Main = lazy(() => import('pages/Public/Main'));
-const Login = lazy(() => import('pages/Public/Login'));
-const Registration = lazy(() => import('pages/Public/Registration'));
+const Login = lazy(() => import('pages/Public/Login/Login'));
+const Registration = lazy(
+	() => import('pages/Public/Registration/Registration')
+);
 
 const Public: FC = () => {
 	return (

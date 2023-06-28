@@ -6,8 +6,8 @@ import {
 
 import { auth } from 'firebase.config';
 
-import type { LoginForm } from 'pages/Public/Login';
-import type { RegistrationForm } from 'pages/Public/Registration';
+import type { LoginForm } from 'pages/Public/Login/Login';
+import type { RegistrationForm } from 'pages/Public/Registration/Registration';
 
 export const loginAction = createAsyncThunk(
 	'auth/login',
