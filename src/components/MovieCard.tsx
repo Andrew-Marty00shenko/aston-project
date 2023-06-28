@@ -1,19 +1,62 @@
+import { Link } from 'react-router-dom';
+
 import Button from 'elements/Button';
 
-const MovieCard = () => {
+import type { Movie } from 'types/movies.type';
+
+const MovieCard = ({
+	id,
+	poster,
+	genres,
+	rating,
+	name,
+	shortDescription,
+	year,
+}: Movie) => {
 	return (
-		<div className="flex flex-col justify-between w-[300px] h-[400px] shadow-2xl rounded-2xl p-5">
-			<div className="h-1/2 bg-gray rounded-2xl"></div>
+		<Link to={`movie/${id}`}>
+			<div className="flex flex-col mb-5 justify-between w-[350px] h-[600px] shadow-2xl rounded-2xl p-5">
+				<div className="h-1/2 rounded-2xl flex justify-center">
+					<img
+						className="h-full bg-gray rounded-2xl"
+						src={poster.previewUrl}
+						alt="preview"
+					/>
+				</div>
 
-			<div>
-				<h4>title</h4>
-				<p>text</p>
-			</div>
+				<div className="mt-2">
+					<h4 className="font-bold text-xl">
+						{name} ({year})
+					</h4>
+					<p className="mt-2 text-sm">
+						<span className="font-bold">Описание:</span> {shortDescription}
+					</p>
+				</div>
 
-			<div>
-				<Button className="w-full">Подробнее</Button>
+				<div className="mt-2">
+					<p className="text-sm">
+						<span className="font-bold">Оценка:</span> KP:
+						<span className="font-bold"> {rating.kp}</span> imdb:{' '}
+						<span className="font-bold"> {rating.imdb}</span>
+					</p>
+				</div>
+
+				<div className="mt-2">
+					<p className="text-sm font-bold">
+						Жанры:{' '}
+						{genres.map((genre) => (
+							<span className=" font-normal" key={genre.name}>
+								{genre.name}{' '}
+							</span>
+						))}
+					</p>
+				</div>
+
+				<div className="mt-2">
+					<Button className="w-full">Подробнее</Button>
+				</div>
 			</div>
-		</div>
+		</Link>
 	);
 };
 
