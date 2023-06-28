@@ -11,9 +11,10 @@ import SelectField from 'elements/SelectField';
 
 import SearchSvg from 'assets/icons/search.svg';
 
+const limit = 10;
+
 const Main = () => {
 	const [page, setPage] = useState(1);
-	const limit = 10;
 
 	const { data, isLoading, isFetching } = moviesAPI.useFetchAllMoviesQuery({
 		page,
@@ -48,12 +49,12 @@ const Main = () => {
 				</div>
 
 				<div className="mt-10 flex justify-between flex-wrap">
-					{data?.docs.map((item) => (
-						<MovieCard key={item.id} {...item} />
+					{data?.data.map((item) => (
+						<MovieCard key={item.id} movie={item} />
 					))}
 				</div>
 
-				{data?.docs && <Pagination pagesCount={data.pages} setPage={setPage} />}
+				{data?.data && <Pagination pagesCount={data.pages} setPage={setPage} />}
 			</main>
 		</>
 	);

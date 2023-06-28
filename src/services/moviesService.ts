@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import { Movies } from 'types/movies.type';
+
+import type { MoviesResponse } from 'types/movies';
 
 export const moviesAPI = createApi({
 	reducerPath: 'moviesAPI',
@@ -11,10 +12,25 @@ export const moviesAPI = createApi({
 		},
 	}),
 	endpoints: (build) => ({
-		fetchAllMovies: build.query<Movies, { page: number; limit: number }>({
-			query: ({ page, limit }) => ({
-				url: `movie?page=${page}&limit=${limit}`,
+		fetchAllMovies: build.query({
+			query: (params) => ({
+				url: `movie?page=${params.page}&limit=${params.limit}`,
 			}),
+			transformResponse: (responseData: MoviesResponse) => {
+				const { total, page, pages, limit } = responseData;
+
+				const data = responseData.docs.map((item) => {
+					return { ...item, previewUrl: item.poster.previewUrl };
+				});
+
+				return {
+					total,
+					page,
+					pages,
+					limit,
+					data,
+				};
+			},
 		}),
 	}),
 });
