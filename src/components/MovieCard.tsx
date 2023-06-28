@@ -1,8 +1,6 @@
-import { FC } from 'react';
-
 import Button from 'elements/Button';
 
-const MovieCard: FC = () => {
+const MovieCard = () => {
 	return (
 		<div className="flex flex-col justify-between w-[300px] h-[400px] shadow-2xl rounded-2xl p-5">
 			<div className="h-1/2 bg-gray rounded-2xl"></div>
