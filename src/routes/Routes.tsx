@@ -4,8 +4,10 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'hooks/redux';
 
 const Main = lazy(() => import('pages/Public/Main'));
-const Login = lazy(() => import('pages/Public/Login'));
-const Registration = lazy(() => import('pages/Public/Registration'));
+const Login = lazy(() => import('pages/Public/Login/Login'));
+const Registration = lazy(
+	() => import('pages/Public/Registration/Registration')
+);
 
 const Public = () => {
 	const navigate = useNavigate();
