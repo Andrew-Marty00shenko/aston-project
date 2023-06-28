@@ -1,12 +1,30 @@
-import { FC } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
-import Public from './Public';
-import Private from './Private';
+import { useAppSelector } from 'hooks/redux';
 
-const Routes: FC = () => {
-	const isAuth = false;
+const Main = lazy(() => import('pages/Public/Main'));
+const Login = lazy(() => import('pages/Public/Login'));
+const Registration = lazy(() => import('pages/Public/Registration'));
 
-	return !isAuth ? <Public /> : <Private />;
+const Public = () => {
+	const navigate = useNavigate();
+	const { isAuth } = useAppSelector((state) => state.auth);
+
+	useEffect(() => {
+		if (isAuth) {
+			navigate('/');
+		}
+	}, [isAuth]);
+
+	return (
+		<Suspense fallback={<div>Загрузка...</div>}>
+			<Routes>
+				<Route path="/" element={<Main />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/registration" element={<Registration />} />
+			</Routes>
+		</Suspense>
+	);
 };
-
-export default Routes;
+export default Public;
