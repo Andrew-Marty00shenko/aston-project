@@ -9,6 +9,7 @@ interface Props {
 	error?: FieldError | undefined;
 	register?: UseFormRegister<any>;
 }
+
 const InputField = ({ name, label, icon, type, error, register }: Props) => {
 	return (
 		<div className="w-full relative">

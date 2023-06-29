@@ -13,7 +13,7 @@ export const moviesAPI = createApi({
 	}),
 	endpoints: (build) => ({
 		fetchAllMovies: build.query({
-			query: (params) => ({
+			query: (params: { page: number; limit: number }) => ({
 				url: `movie?page=${params.page}&limit=${params.limit}`,
 			}),
 			transformResponse: (responseData: MoviesResponse) => {

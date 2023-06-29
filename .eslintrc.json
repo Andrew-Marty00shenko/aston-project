@@ -41,6 +41,12 @@
 	"rules": {
 		"linebreak-style": "off",
 		"import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+		"@typescript-eslint/no-misused-promises": [
+			"error",
+			{
+				"checksVoidReturn": false
+			}
+		],
 		"@typescript-eslint/no-unsafe-assignment": "off",
 		// Configure prettier
 		"prettier/prettier": [
