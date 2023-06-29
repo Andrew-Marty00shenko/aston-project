@@ -10,7 +10,7 @@ interface Props {
 
 const MovieCard = ({ movie }: Props) => {
 	return (
-		<Link to={`movie/${movie.id}`}>
+		<Link to={`/movie/${movie.id}`}>
 			<div className="flex flex-col mb-5 justify-between w-[350px] h-[600px] shadow-2xl rounded-2xl p-5">
 				<div className="h-1/2 rounded-2xl flex justify-center">
 					<img
