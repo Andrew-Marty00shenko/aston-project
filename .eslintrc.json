@@ -41,6 +41,7 @@
 	"rules": {
 		"linebreak-style": "off",
 		"@typescript-eslint/no-unsafe-member-access": "off",
+		"@typescript-eslint/no-explicit-any": "off",
 		"import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
 		"@typescript-eslint/no-misused-promises": [
 			"error",
@@ -63,7 +64,6 @@
 			}
 		],
 		// Disallow the `any` type.
-		"@typescript-eslint/no-explicit-any": "warn",
 		"@typescript-eslint/ban-types": [
 			"error",
 			{
