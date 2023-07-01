@@ -10,7 +10,7 @@ const Button = ({ children, className, disabled, icon }: Props) => {
 	return (
 		<button
 			className={classnames(
-				'px-5 h-[50px] bg-orange rounded-xl text-white hover:opacity-70 flex justify-center items-center',
+				'px-5  bg-orange rounded-xl text-white h-14 hover:opacity-70 flex justify-center items-center',
 				{
 					'w-full': className === 'w-full',
 					'!bg-gray !text-black-opacity font-bold rounded-3xl':
