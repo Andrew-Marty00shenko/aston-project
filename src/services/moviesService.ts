@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import {
 	transformResponseFetchAllMovies,
 	transformResponseFetchMovieById,
+	transformResponseFetchMovieByQuery,
 } from './transformResponses/moviesTransfromResponse';
 
 import type { MovieByIdResponse, MoviesResponse } from 'types/movies';
@@ -18,8 +19,9 @@ export const moviesAPI = createApi({
 	}),
 	endpoints: (build) => ({
 		fetchAllMovies: build.query({
-			query: (params: { page: number; limit: number }) => ({
-				url: `movie?page=${params.page}&limit=${params.limit}`,
+			query: ({ page, limit, year, genres }) => ({
+				url: `movie`,
+				params: { page, limit, year, 'genres.name': genres },
 			}),
 			transformResponse: (responseData: MoviesResponse) =>
 				transformResponseFetchAllMovies(responseData),
@@ -30,6 +32,14 @@ export const moviesAPI = createApi({
 			}),
 			transformResponse: (responseData: MovieByIdResponse) =>
 				transformResponseFetchMovieById(responseData),
+		}),
+		fetchMovieByQuery: build.query({
+			query: ({ page, limit, name }) => ({
+				url: 'movie',
+				params: { page, limit, name },
+			}),
+			transformResponse: (responseData: MoviesResponse) =>
+				transformResponseFetchMovieByQuery(responseData),
 		}),
 	}),
 });

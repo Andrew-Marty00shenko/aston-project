@@ -56,3 +56,21 @@ export const transformResponseFetchMovieById = (
 		}),
 	};
 };
+
+export const transformResponseFetchMovieByQuery = (
+	responseData: MoviesResponse
+) => {
+	const { total, page, pages, limit } = responseData;
+
+	const data = responseData.docs.map((item) => {
+		return { ...item, previewUrl: item.poster.previewUrl };
+	});
+
+	return {
+		total,
+		page,
+		pages,
+		limit,
+		data,
+	};
+};
