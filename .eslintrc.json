@@ -44,7 +44,7 @@
 		"@typescript-eslint/no-explicit-any": "off",
 		"import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
 		"@typescript-eslint/no-misused-promises": [
-			"error",
+			"off",
 			{
 				"checksVoidReturn": false
 			}
