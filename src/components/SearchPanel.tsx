@@ -45,7 +45,7 @@ const SearchPanel = () => {
 				</div>
 			</div>
 
-			{debouncedSearch && <SuggestsMovies movies={movies?.data} />}
+			{debouncedSearch && movies && <SuggestsMovies movies={movies.docs} />}
 		</form>
 	);
 };

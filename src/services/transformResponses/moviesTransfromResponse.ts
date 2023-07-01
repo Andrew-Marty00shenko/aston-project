@@ -1,34 +1,38 @@
-import type { MovieByIdResponse, MoviesResponse } from 'types/movies';
+import type { MovieByIdResponse, Movies } from 'types/movies';
 
-export const transformResponseFetchAllMovies = (
-	responseData: MoviesResponse
-) => {
+export const transformedFetchAllMovies = (responseData: Movies) => {
 	const { total, page, pages, limit } = responseData;
-
-	const data = responseData.docs.map((item) => {
-		return { ...item, previewUrl: item.poster.previewUrl };
-	});
 
 	return {
 		total,
 		page,
 		pages,
 		limit,
-		data,
+		docs: responseData.docs.map((item) => {
+			return {
+				id: item.id,
+				poster: item.poster,
+				genres: item.genres,
+				rating: item.rating,
+				name: item.name,
+				shortDescription: item.shortDescription,
+				year: item.year,
+			};
+		}),
 	};
 };
 
-export const transformResponseFetchMovieById = (
-	responseData: MovieByIdResponse
-) => {
+export const transformedFetchMovieById = (responseData: MovieByIdResponse) => {
 	const {
+		id,
 		poster,
 		genres,
 		rating,
 		name,
-		alternativeName,
+		shortDescription,
 		year,
 		description,
+		alternativeName,
 		ageRating,
 		countries,
 		fees,
@@ -36,41 +40,49 @@ export const transformResponseFetchMovieById = (
 	} = responseData;
 
 	return {
-		url: poster.url,
+		id,
+		poster,
 		genres,
 		rating,
 		name,
 		alternativeName,
 		year,
+		shortDescription,
 		description,
 		ageRating,
 		countries,
 		feesRussia: fees.russia,
 		feesWorld: fees.world,
-		watchability: watchability.items.map((item) => {
-			return {
-				linkIcon: item.logo.url,
-				name: item.name,
-				url: item.url,
-			};
-		}),
+		watchability: {
+			items: watchability.items.map((item) => {
+				return {
+					linkIcon: item.logo.url,
+					name: item.name,
+					url: item.url,
+				};
+			}),
+		},
 	};
 };
 
-export const transformResponseFetchMovieByQuery = (
-	responseData: MoviesResponse
-) => {
+export const transformedFetchMovieByQuery = (responseData: Movies) => {
 	const { total, page, pages, limit } = responseData;
-
-	const data = responseData.docs.map((item) => {
-		return { ...item, previewUrl: item.poster.previewUrl };
-	});
 
 	return {
 		total,
 		page,
 		pages,
 		limit,
-		data,
+		docs: responseData.docs.map((item) => {
+			return {
+				id: item.id,
+				poster: item.poster,
+				genres: item.genres,
+				rating: item.rating,
+				name: item.name,
+				shortDescription: item.shortDescription,
+				year: item.year,
+			};
+		}),
 	};
 };

@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
 import {
-	transformResponseFetchAllMovies,
-	transformResponseFetchMovieById,
-	transformResponseFetchMovieByQuery,
+	transformedFetchAllMovies,
+	transformedFetchMovieById,
+	transformedFetchMovieByQuery,
 } from './transformResponses/moviesTransfromResponse';
 
-import type { MovieByIdResponse, MoviesResponse } from 'types/movies';
+import type { MovieById, Movies } from 'types/movies';
 
 export const moviesAPI = createApi({
 	reducerPath: 'moviesAPI',
@@ -18,28 +18,31 @@ export const moviesAPI = createApi({
 		},
 	}),
 	endpoints: (build) => ({
-		fetchAllMovies: build.query({
+		fetchAllMovies: build.query<
+			Movies,
+			{ page?: number; limit?: number; year?: string; genres?: string }
+		>({
 			query: ({ page, limit, year, genres }) => ({
 				url: `movie`,
 				params: { page, limit, year, 'genres.name': genres },
 			}),
-			transformResponse: (responseData: MoviesResponse) =>
-				transformResponseFetchAllMovies(responseData),
+			transformResponse: transformedFetchAllMovies,
 		}),
-		fetchMovieById: build.query({
-			query: (params: { movieId: number }) => ({
-				url: `movie/${params.movieId}`,
+		fetchMovieById: build.query<MovieById, { movieId: number }>({
+			query: ({ movieId }) => ({
+				url: `movie/${movieId}`,
 			}),
-			transformResponse: (responseData: MovieByIdResponse) =>
-				transformResponseFetchMovieById(responseData),
+			transformResponse: transformedFetchMovieById,
 		}),
-		fetchMovieByQuery: build.query({
+		fetchMovieByQuery: build.query<
+			Movies,
+			{ page?: number; limit?: number; name?: string }
+		>({
 			query: ({ page, limit, name }) => ({
 				url: 'movie',
 				params: { page, limit, name },
 			}),
-			transformResponse: (responseData: MoviesResponse) =>
-				transformResponseFetchMovieByQuery(responseData),
+			transformResponse: transformedFetchMovieByQuery,
 		}),
 	}),
 });

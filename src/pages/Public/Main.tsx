@@ -31,8 +31,13 @@ const genresList: string[] = [
 	'фэнтези',
 ];
 
+interface FiltersForm {
+	year: string;
+	genres: string;
+}
+
 const Main = () => {
-	const { register, watch } = useForm();
+	const { register, watch } = useForm<FiltersForm>();
 	const { year, genres } = watch();
 	const [page, setPage] = useState(1);
 
@@ -40,60 +45,64 @@ const Main = () => {
 		moviesAPI.useLazyFetchAllMoviesQuery();
 
 	useEffect(() => {
-		trigger(
-			year === 'все годы' && genres === 'все жанры'
-				? { page, limit }
-				: year !== 'все годы' && genres !== 'все жанры'
-				? { page, limit, year, genres }
-				: year !== 'все годы' && genres === 'все жанры'
-				? { page, limit, year }
-				: year === 'все годы' && genres !== 'все жанры'
-				? { page, limit, genres }
-				: { page, limit }
-		);
+		switch (true) {
+			case year === 'все годы' && genres === 'все жанры':
+				trigger({ page, limit });
+				break;
+			case year !== 'все годы' && genres !== 'все жанры':
+				trigger({ page, limit, year, genres });
+				break;
+			case year !== 'все годы' && genres === 'все жанры':
+				trigger({ page, limit, year });
+				break;
+			case year === 'все годы' && genres !== 'все жанры':
+				trigger({ page, limit, genres });
+				break;
+			default:
+				trigger({ page, limit });
+		}
 	}, [page, year, genres]);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [page]);
 
+	if (isFetching || isLoading || !data?.docs) {
+		return <Preloader />;
+	}
+
 	return (
-		<>
-			{(isFetching || isLoading) && <Preloader />}
-			<main className="mx-auto bg-white w-[1200px] p-10 my-28 rounded-2xl">
-				<SearchPanel />
+		<main className="mx-auto bg-white w-[1200px] p-10 my-28 rounded-2xl">
+			<SearchPanel />
 
-				<div className="mt-5 flex justify-between">
-					<div className="w-[40%]">
-						<SelectField
-							name="year"
-							label="Год"
-							register={register}
-							items={yearsList}
-						/>
-					</div>
-
-					<div className="w-[40%]">
-						<SelectField
-							name="genres"
-							label="Жанр"
-							register={register}
-							items={genresList}
-						/>
-					</div>
+			<div className="mt-5 flex justify-between">
+				<div className="w-[40%]">
+					<SelectField
+						name="year"
+						label="Год"
+						register={register}
+						items={yearsList}
+					/>
 				</div>
 
-				<div className="w-[200px]"></div>
-
-				<div className="mt-10 flex justify-between flex-wrap">
-					{data?.data.map((item) => (
-						<MovieCard key={item.id} movie={item} />
-					))}
+				<div className="w-[40%]">
+					<SelectField
+						name="genres"
+						label="Жанр"
+						register={register}
+						items={genresList}
+					/>
 				</div>
+			</div>
 
-				{data?.data && <Pagination pagesCount={data.pages} setPage={setPage} />}
-			</main>
-		</>
+			<div className="mt-10 flex justify-between flex-wrap">
+				{data.docs.map((item) => (
+					<MovieCard key={item.id} movie={item} />
+				))}
+			</div>
+
+			{data.docs && <Pagination pagesCount={data.pages} setPage={setPage} />}
+		</main>
 	);
 };
 

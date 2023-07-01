@@ -17,12 +17,12 @@ const Search = () => {
 		isLoading,
 		isFetching,
 	} = moviesAPI.useFetchMovieByQueryQuery({
-		name: searchParams.get('name'),
+		name: searchParams.get('name') as string,
 		page,
 		limit,
 	});
 
-	if (isFetching || isLoading) {
+	if (isFetching || isLoading || !movies?.docs) {
 		return <Preloader />;
 	}
 
@@ -30,12 +30,12 @@ const Search = () => {
 		<main className="mx-auto bg-white w-[1200px] p-10 my-28 rounded-2xl">
 			<h2 className="text-2xl font-bold">Результаты поиска: </h2>
 			<div className="mt-10 flex justify-between flex-wrap">
-				{movies?.data.map((item) => (
+				{movies.docs.map((item) => (
 					<MovieCard key={item.id} movie={item} />
 				))}
 			</div>
 
-			{movies?.data && (
+			{movies.docs && (
 				<Pagination pagesCount={movies.pages} setPage={setPage} />
 			)}
 		</main>
