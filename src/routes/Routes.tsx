@@ -1,7 +1,5 @@
-import { lazy, Suspense, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-
-import { useAppSelector } from 'hooks/redux';
+import { lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 const Main = lazy(() => import('pages/Public/Main'));
 const Login = lazy(() => import('pages/Public/Login/Login'));
@@ -12,15 +10,6 @@ const Movie = lazy(() => import('pages/Public/Movie'));
 const Search = lazy(() => import('pages/Public/Search'));
 
 const Public = () => {
-	const navigate = useNavigate();
-	const { isAuth } = useAppSelector((state) => state.auth);
-
-	useEffect(() => {
-		if (isAuth) {
-			navigate('/');
-		}
-	}, [isAuth]);
-
 	return (
 		<Suspense fallback={<div>Загрузка...</div>}>
 			<Routes>

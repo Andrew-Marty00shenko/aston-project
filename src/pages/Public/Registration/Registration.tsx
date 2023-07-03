@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-hot-toast';
 
 import { registrationValidation } from './registrationValidation';
 
@@ -20,6 +21,7 @@ export interface RegistrationForm {
 }
 
 const Registration = () => {
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const { loading } = useAppSelector((state) => state.auth);
 	const {
@@ -31,7 +33,16 @@ const Registration = () => {
 	});
 
 	const registrationUser = async (data: RegistrationForm) => {
-		await dispatch(registrationAction(data));
+		try {
+			const user = await dispatch(registrationAction(data));
+
+			if (user.type !== 'auth/registration/rejected') {
+				navigate('/');
+			}
+		} catch (err) {
+			const typedError = err as Error;
+			toast.error(typedError.message);
+		}
 	};
 
 	return (

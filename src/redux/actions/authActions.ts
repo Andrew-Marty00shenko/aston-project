@@ -8,6 +8,7 @@ import { auth } from 'firebase.config';
 
 import type { LoginForm } from 'pages/Public/Login/Login';
 import type { RegistrationForm } from 'pages/Public/Registration/Registration';
+import { toast } from 'react-hot-toast';
 
 export const loginAction = createAsyncThunk(
 	'auth/login',
@@ -28,6 +29,7 @@ export const loginAction = createAsyncThunk(
 
 			return response;
 		} catch (err) {
+			toast.error('Неверный логин или пароль!');
 			return rejectWithValue(err);
 		}
 	}
@@ -47,10 +49,13 @@ export const registrationAction = createAsyncThunk(
 					'user',
 					JSON.stringify(response.user.providerData)
 				);
+
+				toast.success('Вы успешно зарегистрировались на нашем сайте!');
 			}
 
 			return response;
 		} catch (err) {
+			toast.error('Такой пользователь уже сущетсвует!');
 			return rejectWithValue(err);
 		}
 	}

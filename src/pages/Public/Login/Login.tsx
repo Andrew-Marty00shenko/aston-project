@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-hot-toast';
 
 import { loginValidation } from './loginValidation';
 
@@ -19,6 +20,7 @@ export interface LoginForm {
 }
 
 const Login = () => {
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const { loading } = useAppSelector((state) => state.auth);
 	const {
@@ -30,7 +32,16 @@ const Login = () => {
 	});
 
 	const loginUser = async (data: LoginForm) => {
-		await dispatch(loginAction(data));
+		try {
+			const user = await dispatch(loginAction(data));
+
+			if (user.type !== 'auth/login/rejected') {
+				navigate('/');
+			}
+		} catch (err) {
+			const typedError = err as Error;
+			toast.error(typedError.message);
+		}
 	};
 
 	return (

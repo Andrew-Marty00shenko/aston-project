@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-hot-toast';
 
 import { loginAction, registrationAction } from 'redux/actions/authActions';
 
@@ -27,24 +26,21 @@ const authSlice = createSlice({
 		builder.addCase(loginAction.pending, (state) => {
 			state.loading = true;
 		});
-		builder.addCase(loginAction.fulfilled, (state, action) => {
+		builder.addCase(loginAction.fulfilled, (state) => {
 			state.isAuth = true;
 			state.loading = false;
 		});
 		builder.addCase(loginAction.rejected, (state) => {
 			state.loading = false;
-			toast.error('Неверный логин или пароль!');
 		});
 		builder.addCase(registrationAction.pending, (state) => {
 			state.loading = true;
 		});
 		builder.addCase(registrationAction.fulfilled, (state) => {
-			toast.success('Вы успешно зарегистрировались на нашем сайте!');
 			state.isAuth = true;
 			state.loading = false;
 		});
 		builder.addCase(registrationAction.rejected, (state) => {
-			toast.error('Такой пользователь уже сущетсвует!');
 			state.loading = false;
 		});
 	},
