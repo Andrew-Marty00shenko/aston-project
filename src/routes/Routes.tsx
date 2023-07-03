@@ -9,6 +9,7 @@ const Registration = lazy(
 	() => import('pages/Public/Registration/Registration')
 );
 const Movie = lazy(() => import('pages/Public/Movie'));
+const Search = lazy(() => import('pages/Public/Search'));
 
 const Public = () => {
 	const navigate = useNavigate();
@@ -27,6 +28,7 @@ const Public = () => {
 				<Route path="/login" element={<Login />} />
 				<Route path="/registration" element={<Registration />} />
 				<Route path="/movie/:id" element={<Movie />} />
+				<Route path="/search" element={<Search />} />
 			</Routes>
 		</Suspense>
 	);

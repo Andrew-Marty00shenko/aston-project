@@ -1,22 +1,35 @@
-import ArrowDownSvg from 'assets/icons/arrow-down.svg';
+import { UseFormRegister } from 'react-hook-form';
 
-interface Props {
+interface Props<T> {
+	name: string;
 	label: string;
-	value: string;
+	register?: UseFormRegister<any>;
+	items: T[];
 }
 
-const SelectField = ({ label, value }: Props) => {
+const SelectField = <T extends string>({
+	name,
+	label,
+	items,
+	register,
+}: Props<T>) => {
 	return (
 		<div className="w-full cursor-pointer">
 			<label htmlFor="">{label}</label>
-			<div className="bg-gray w-full h-14 mt-1 rounded-2xl relative flex items-center px-4">
-				<span>{value}</span>
-				<img
-					className="w-6 h-6 absolute right-2"
-					src={ArrowDownSvg}
-					alt="arrow"
-				/>
-			</div>
+			<select
+				defaultValue=""
+				className="bg-gray w-full h-14 mt-1 rounded-2xl px-2 cursor-pointer"
+				id={label}
+				{...(register && { ...register(name) })}
+			>
+				{items.map((item) => {
+					return (
+						<option key={item} value={item}>
+							{item}
+						</option>
+					);
+				})}
+			</select>
 			<div></div>
 		</div>
 	);

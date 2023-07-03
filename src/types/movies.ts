@@ -1,12 +1,12 @@
-export interface MoviesResponse {
-	docs: MovieResponse[];
+export interface Movies {
+	docs: Movie[];
 	page: number;
 	pages: number;
 	limit: number;
 	total: number;
 }
 
-export interface MovieResponse {
+export interface Movie {
 	id: number;
 	poster: {
 		previewUrl: string;
@@ -24,22 +24,7 @@ export interface MovieResponse {
 	year: number;
 }
 
-export interface Movie {
-	id: number;
-	previewUrl: string;
-	genres: {
-		name: string;
-	}[];
-	rating: {
-		kp: number;
-		imdb: number;
-	};
-	name: string;
-	shortDescription: string;
-	year: number;
-}
-
-export interface MovieByIdResponse extends MovieResponse {
+export interface MovieByIdResponse extends Movie {
 	description: string;
 	alternativeName: string;
 	ageRating: number;
@@ -71,7 +56,6 @@ export interface MovieById extends Movie {
 	description: string;
 	alternativeName: string;
 	ageRating: number;
-	url: string;
 	countries: {
 		name: string;
 	}[];
