@@ -1,6 +1,6 @@
-import type { MovieByIdResponse, Movies } from 'types/movies';
+import type { MovieById, MovieByIdResponse, Movies } from 'types/movies';
 
-export const transformedFetchAllMovies = (responseData: Movies) => {
+export const transformedFetchAllMovies = (responseData: Movies): Movies => {
 	const { total, page, pages, limit } = responseData;
 
 	return {
@@ -22,7 +22,9 @@ export const transformedFetchAllMovies = (responseData: Movies) => {
 	};
 };
 
-export const transformedFetchMovieById = (responseData: MovieByIdResponse) => {
+export const transformedFetchMovieById = (
+	responseData: MovieByIdResponse
+): MovieById => {
 	const {
 		id,
 		poster,
@@ -65,7 +67,7 @@ export const transformedFetchMovieById = (responseData: MovieByIdResponse) => {
 	};
 };
 
-export const transformedFetchMovieByQuery = (responseData: Movies) => {
+export const transformedFetchMovieByQuery = (responseData: Movies): Movies => {
 	const { total, page, pages, limit } = responseData;
 
 	return {

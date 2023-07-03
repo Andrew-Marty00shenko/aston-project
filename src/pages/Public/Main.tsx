@@ -45,6 +45,14 @@ const Main = () => {
 		moviesAPI.useLazyFetchAllMoviesQuery();
 
 	useEffect(() => {
+		getMovies();
+	}, [page, year, genres]);
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [page]);
+
+	const getMovies = () => {
 		switch (true) {
 			case year === 'все годы' && genres === 'все жанры':
 				trigger({ page, limit });
@@ -61,11 +69,7 @@ const Main = () => {
 			default:
 				trigger({ page, limit });
 		}
-	}, [page, year, genres]);
-
-	useEffect(() => {
-		window.scrollTo(0, 0);
-	}, [page]);
+	};
 
 	if (isFetching || isLoading || !data?.docs) {
 		return <Preloader />;
