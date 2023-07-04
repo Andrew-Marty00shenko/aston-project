@@ -11,24 +11,21 @@ import Button from 'elements/Button';
 
 import StarSvg from 'assets/icons/star.svg';
 import CheckSvg from 'assets/icons/check.svg';
+import { useAppSelector } from 'hooks/redux';
 
 const Movie = () => {
 	const navigate = useNavigate();
 	const { id: movieId } = useParams();
+	const { isAuth } = useAppSelector((state) => state.auth);
 	const { data: movie, isLoading } = moviesAPI.useFetchMovieByIdQuery({
 		movieId: Number(movieId),
 	});
-	const { uid, token } = JSON.parse(localStorage.getItem('user') as string);
-	const { data: favoritesMovies } = favoritesAPI.useGetFavoritesMoviesQuery({
-		uid,
-		token,
-	});
+	const { data: favoritesMovies } = favoritesAPI.useGetFavoritesMoviesQuery('');
 	const [addMovieToFavorites] = favoritesAPI.useAddMovieMutation();
 
-	const existsInFavorites =
-		favoritesMovies?.find((item) => item.id === movie?.id) !== undefined
-			? true
-			: false;
+	const existsInFavorites = favoritesMovies?.find(
+		(item) => item.id === movie?.id
+	);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -39,8 +36,8 @@ const Movie = () => {
 	}
 
 	const onAddMovieToFavorites = () => {
-		if (token) {
-			addMovieToFavorites({ uid, token, movie });
+		if (isAuth) {
+			addMovieToFavorites({ movie });
 		} else {
 			navigate('/login');
 			toast.error('Для добавления фильма в избранное нужно войти в аккаунт!');
@@ -94,7 +91,7 @@ const Movie = () => {
 							</div>
 						) : (
 							<Button
-								action={onAddMovieToFavorites}
+								onClick={onAddMovieToFavorites}
 								className="wish"
 								icon={StarSvg}
 							>
