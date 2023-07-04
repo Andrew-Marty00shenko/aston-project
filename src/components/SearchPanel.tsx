@@ -10,6 +10,7 @@ import Button from 'elements/Button';
 import InputField from 'elements/InputField';
 
 import SearchSvg from 'assets/icons/search.svg';
+import { useEffect } from 'react';
 
 interface SearchForm {
 	search: string;
@@ -20,9 +21,13 @@ const SearchPanel = () => {
 	const { register, watch, handleSubmit } = useForm<SearchForm>();
 	const { search } = watch();
 	const debouncedSearch = useDebounce(search, 500);
-	const { data: movies } = moviesAPI.useFetchMovieByQueryQuery({
-		name: debouncedSearch,
-	});
+	const [trigger, { data: movies }] = moviesAPI.useLazyFetchMovieByQueryQuery();
+
+	useEffect(() => {
+		if (debouncedSearch !== undefined) {
+			trigger({ name: debouncedSearch });
+		}
+	}, [debouncedSearch]);
 
 	const searchMovieByName = () => {
 		navigate(`/search?name=${debouncedSearch}`);
