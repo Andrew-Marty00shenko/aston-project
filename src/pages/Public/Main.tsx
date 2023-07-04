@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 
 import { moviesAPI } from 'services/moviesService';
 
+import { getMovies } from 'utils/helpers/filterMovies';
+
 import SelectField from 'elements/SelectField';
 
 import MovieCard from 'components/MovieCard';
@@ -45,68 +47,52 @@ const Main = () => {
 		moviesAPI.useLazyFetchAllMoviesQuery();
 
 	useEffect(() => {
-		getMovies();
+		getMovies(trigger, { page, limit, year, genres });
 	}, [page, year, genres]);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-	}, [page]);
+	}, [page, year, genres]);
 
-	const getMovies = () => {
-		switch (true) {
-			case year === 'все годы' && genres === 'все жанры':
-				trigger({ page, limit });
-				break;
-			case year !== 'все годы' && genres !== 'все жанры':
-				trigger({ page, limit, year, genres });
-				break;
-			case year !== 'все годы' && genres === 'все жанры':
-				trigger({ page, limit, year });
-				break;
-			case year === 'все годы' && genres !== 'все жанры':
-				trigger({ page, limit, genres });
-				break;
-			default:
-				trigger({ page, limit });
-		}
-	};
-
-	if (isFetching || isLoading || !data?.docs) {
+	if (isLoading || !data?.docs) {
 		return <Preloader />;
 	}
 
 	return (
-		<main className="mx-auto bg-white w-[1200px] p-10 my-28 rounded-2xl">
-			<SearchPanel />
+		<>
+			{isFetching && <Preloader />}
+			<main className="mx-auto bg-white w-[1200px] p-10 my-28 rounded-2xl">
+				<SearchPanel />
 
-			<div className="mt-5 flex justify-between">
-				<div className="w-[40%]">
-					<SelectField
-						name="year"
-						label="Год"
-						register={register}
-						items={yearsList}
-					/>
+				<div className="mt-5 flex justify-between">
+					<div className="w-[40%]">
+						<SelectField
+							name="year"
+							label="Год"
+							register={register}
+							items={yearsList}
+						/>
+					</div>
+
+					<div className="w-[40%]">
+						<SelectField
+							name="genres"
+							label="Жанр"
+							register={register}
+							items={genresList}
+						/>
+					</div>
 				</div>
 
-				<div className="w-[40%]">
-					<SelectField
-						name="genres"
-						label="Жанр"
-						register={register}
-						items={genresList}
-					/>
+				<div className="mt-10 flex justify-between flex-wrap">
+					{data?.docs.map((item) => (
+						<MovieCard key={item.id} movie={item} />
+					))}
 				</div>
-			</div>
 
-			<div className="mt-10 flex justify-between flex-wrap">
-				{data.docs.map((item) => (
-					<MovieCard key={item.id} movie={item} />
-				))}
-			</div>
-
-			{data.docs && <Pagination pagesCount={data.pages} setPage={setPage} />}
-		</main>
+				{data.docs && <Pagination pagesCount={data.pages} setPage={setPage} />}
+			</main>
+		</>
 	);
 };
 

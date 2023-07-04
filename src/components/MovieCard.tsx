@@ -15,7 +15,7 @@ const MovieCard = ({ movie }: Props) => {
 				<div className="h-1/2 rounded-2xl flex justify-center">
 					<img
 						className="h-full bg-gray rounded-2xl"
-						src={movie.poster.previewUrl}
+						src={movie.poster?.previewUrl}
 						alt="preview"
 					/>
 				</div>

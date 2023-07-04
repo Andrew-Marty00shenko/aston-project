@@ -22,23 +22,26 @@ const Search = () => {
 		limit,
 	});
 
-	if (isFetching || isLoading || !movies?.docs) {
+	if (isLoading || !movies?.docs) {
 		return <Preloader />;
 	}
 
 	return (
-		<main className="mx-auto bg-white w-[1200px] p-10 my-28 rounded-2xl">
-			<h2 className="text-2xl font-bold">Результаты поиска: </h2>
-			<div className="mt-10 flex justify-between flex-wrap">
-				{movies.docs.map((item) => (
-					<MovieCard key={item.id} movie={item} />
-				))}
-			</div>
+		<>
+			{isFetching && <Preloader />}
+			<main className="mx-auto bg-white w-[1200px] p-10 my-28 rounded-2xl">
+				<h2 className="text-2xl font-bold">Результаты поиска: </h2>
+				<div className="mt-10 flex justify-between flex-wrap">
+					{movies.docs.map((item) => (
+						<MovieCard key={item.id} movie={item} />
+					))}
+				</div>
 
-			{movies.docs && (
-				<Pagination pagesCount={movies.pages} setPage={setPage} />
-			)}
-		</main>
+				{movies.docs && (
+					<Pagination pagesCount={movies.pages} setPage={setPage} />
+				)}
+			</main>
+		</>
 	);
 };
 

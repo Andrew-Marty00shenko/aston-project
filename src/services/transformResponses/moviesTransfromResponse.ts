@@ -1,6 +1,6 @@
 import type { MovieById, MovieByIdResponse, Movies } from 'types/movies';
 
-export const transformedFetchAllMovies = (responseData: Movies): Movies => {
+export const toAllMovies = (responseData: Movies): Movies => {
 	const { total, page, pages, limit } = responseData;
 
 	return {
@@ -22,9 +22,7 @@ export const transformedFetchAllMovies = (responseData: Movies): Movies => {
 	};
 };
 
-export const transformedFetchMovieById = (
-	responseData: MovieByIdResponse
-): MovieById => {
+export const toMovieById = (responseData: MovieByIdResponse): MovieById => {
 	const {
 		id,
 		poster,
@@ -67,7 +65,7 @@ export const transformedFetchMovieById = (
 	};
 };
 
-export const transformedFetchMovieByQuery = (responseData: Movies): Movies => {
+export const toMovieByQuery = (responseData: Movies): Movies => {
 	const { total, page, pages, limit } = responseData;
 
 	return {

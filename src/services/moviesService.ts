@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
 import {
-	transformedFetchAllMovies,
-	transformedFetchMovieById,
-	transformedFetchMovieByQuery,
+	toAllMovies,
+	toMovieById,
+	toMovieByQuery,
 } from './transformResponses/moviesTransfromResponse';
 
 import type { MovieById, Movies } from 'types/movies';
@@ -26,13 +26,13 @@ export const moviesAPI = createApi({
 				url: `movie`,
 				params: { page, limit, year, 'genres.name': genres },
 			}),
-			transformResponse: transformedFetchAllMovies,
+			transformResponse: toAllMovies,
 		}),
 		fetchMovieById: build.query<MovieById, { movieId: number }>({
 			query: ({ movieId }) => ({
 				url: `movie/${movieId}`,
 			}),
-			transformResponse: transformedFetchMovieById,
+			transformResponse: toMovieById,
 		}),
 		fetchMovieByQuery: build.query<
 			Movies,
@@ -42,7 +42,7 @@ export const moviesAPI = createApi({
 				url: 'movie',
 				params: { page, limit, name },
 			}),
-			transformResponse: transformedFetchMovieByQuery,
+			transformResponse: toMovieByQuery,
 		}),
 	}),
 });
