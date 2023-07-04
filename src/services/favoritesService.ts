@@ -10,26 +10,36 @@ export const favoritesAPI = createApi({
 		baseUrl: 'https://aston-movies-default-rtdb.firebaseio.com/',
 	}),
 	tagTypes: ['Favorites'],
-	endpoints: (build) => ({
-		getFavoritesMovies: build.query<Movie[], { uid: string; token: string }>({
-			query: ({ uid, token }) => ({
-				url: `${uid}/favorites.json`,
-				params: { auth: token },
+	endpoints: (build) => {
+		const { uid, token }: { uid: string; token: string } = JSON.parse(
+			localStorage.getItem('user') as string
+		);
+
+		return {
+			getFavoritesMovies: build.query<Movie[], any>({
+				query: () => ({
+					url: `${uid}/favorites.json`,
+					params: { auth: token },
+				}),
+				transformResponse: toMoviesArray,
+				providesTags: ['Favorites'],
 			}),
-			transformResponse: toMoviesArray,
-			providesTags: ['Favorites'],
-		}),
-		addMovie: build.mutation<
-			Movie,
-			{ uid: string; token: string; movie: Movie }
-		>({
-			query: ({ uid, token, movie }) => ({
-				url: `${uid}/favorites.json`,
-				params: { auth: token },
-				method: 'POST',
-				body: movie,
+			addMovie: build.mutation<Movie, { movie: Movie }>({
+				query: ({ movie }) => ({
+					url: `${uid}/favorites.json`,
+					params: { auth: token },
+					method: 'POST',
+					body: movie,
+				}),
+				invalidatesTags: ['Favorites'],
 			}),
-			invalidatesTags: ['Favorites'],
-		}),
-	}),
+			removeMovie: build.mutation<any, { movieKey: string }>({
+				query: ({ movieKey }) => ({
+					url: `${uid}/favorites/${movieKey}.json`,
+					method: 'DELETE',
+				}),
+				invalidatesTags: ['Favorites'],
+			}),
+		};
+	},
 });

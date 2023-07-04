@@ -8,6 +8,7 @@ module.exports = {
 			gray: '#f4f4f4',
 			red: '#ff0000',
 			'black-opacity': 'rgba(0,0,0,0.8)',
+			orange: '#e84e0e',
 		},
 		backgroundColor: {
 			white: '#ffffff',
