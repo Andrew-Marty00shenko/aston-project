@@ -16,7 +16,7 @@ export const favoritesAPI = createApi({
 		);
 
 		return {
-			getFavoritesMovies: build.query<Movie[], any>({
+			getFavoritesMovies: build.query<Movie[], void>({
 				query: () => ({
 					url: `${uid}/favorites.json`,
 					params: { auth: token },
@@ -33,7 +33,7 @@ export const favoritesAPI = createApi({
 				}),
 				invalidatesTags: ['Favorites'],
 			}),
-			removeMovie: build.mutation<any, { movieKey: string }>({
+			removeMovie: build.mutation<void, { movieKey: string }>({
 				query: ({ movieKey }) => ({
 					url: `${uid}/favorites/${movieKey}.json`,
 					method: 'DELETE',

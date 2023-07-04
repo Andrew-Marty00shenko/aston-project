@@ -20,7 +20,7 @@ const Movie = () => {
 	const { data: movie, isLoading } = moviesAPI.useFetchMovieByIdQuery({
 		movieId: Number(movieId),
 	});
-	const { data: favoritesMovies } = favoritesAPI.useGetFavoritesMoviesQuery('');
+	const { data: favoritesMovies } = favoritesAPI.useGetFavoritesMoviesQuery();
 	const [addMovieToFavorites] = favoritesAPI.useAddMovieMutation();
 
 	const existsInFavorites = favoritesMovies?.find(

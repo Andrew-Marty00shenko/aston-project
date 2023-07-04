@@ -8,7 +8,7 @@ import Preloader from 'components/Preloader';
 import TrashSvg from 'assets/icons/trash.svg';
 
 const Favorites = () => {
-	const { data, isLoading } = favoritesAPI.useGetFavoritesMoviesQuery('');
+	const { data, isLoading } = favoritesAPI.useGetFavoritesMoviesQuery();
 	const [removeMovieFromFavorites] = favoritesAPI.useRemoveMovieMutation();
 
 	if (isLoading || !data) {
@@ -40,7 +40,7 @@ const Favorites = () => {
 						<MovieCard
 							key={item.id}
 							icon={TrashSvg}
-							action={onRemoveMovieFromFavorites}
+							Action={onRemoveMovieFromFavorites}
 							movie={item}
 						/>
 					))
