@@ -5,10 +5,12 @@ interface Props {
 	className?: 'w-full' | 'wish';
 	disabled?: boolean;
 	icon?: string;
+	action?: () => void;
 }
-const Button = ({ children, className, disabled, icon }: Props) => {
+const Button = ({ children, className, disabled, icon, action }: Props) => {
 	return (
 		<button
+			onClick={action}
 			className={classnames(
 				'px-5  bg-orange rounded-xl text-white h-14 hover:opacity-70 flex justify-center items-center',
 				{

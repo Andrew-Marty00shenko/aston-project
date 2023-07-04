@@ -33,6 +33,9 @@ const Header = () => {
 				</div>
 			) : (
 				<div className="flex items-center justify-between">
+					<Link to="/favorites">
+						<span className="text-white mr-10 text-xl">Избранное</span>
+					</Link>
 					<Link to="/" onClick={clickLogout}>
 						<Button>Выйти</Button>
 					</Link>
