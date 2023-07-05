@@ -1,7 +1,10 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { historyAPI } from 'services/historyService';
 import { moviesAPI } from 'services/moviesService';
+
 import { useDebounce } from 'hooks/useDebounce';
 
 import SuggestsMovies from './SuggestsMovies';
@@ -10,7 +13,6 @@ import Button from 'elements/Button';
 import InputField from 'elements/InputField';
 
 import SearchSvg from 'assets/icons/search.svg';
-import { useEffect } from 'react';
 
 interface SearchForm {
 	search: string;
@@ -22,6 +24,7 @@ const SearchPanel = () => {
 	const { search } = watch();
 	const debouncedSearch = useDebounce(search, 500);
 	const [trigger, { data: movies }] = moviesAPI.useLazyFetchMovieByQueryQuery();
+	const [addMovieToHistory] = historyAPI.useCreateHistoryMutation();
 
 	useEffect(() => {
 		if (debouncedSearch !== undefined) {
@@ -30,6 +33,7 @@ const SearchPanel = () => {
 	}, [debouncedSearch]);
 
 	const searchMovieByName = () => {
+		addMovieToHistory({ name: debouncedSearch, createdAt: Date.now() });
 		navigate(`/search?name=${debouncedSearch}`);
 	};
 
