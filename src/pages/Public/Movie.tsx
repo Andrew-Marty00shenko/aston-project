@@ -5,13 +5,14 @@ import { toast } from 'react-hot-toast';
 import { moviesAPI } from 'services/moviesService';
 import { favoritesAPI } from 'services/favoritesService';
 
+import { useAppSelector } from 'hooks/redux';
+
 import Preloader from 'components/Preloader';
 
 import Button from 'elements/Button';
 
 import StarSvg from 'assets/icons/star.svg';
 import CheckSvg from 'assets/icons/check.svg';
-import { useAppSelector } from 'hooks/redux';
 
 const Movie = () => {
 	const navigate = useNavigate();
