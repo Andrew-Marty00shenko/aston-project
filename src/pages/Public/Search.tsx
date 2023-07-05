@@ -6,6 +6,7 @@ import { moviesAPI } from 'services/moviesService';
 import MovieCard from 'components/MovieCard';
 import Pagination from 'components/Pagination';
 import Preloader from 'components/Preloader';
+import SearchPanel from 'components/SearchPanel';
 
 const limit = 10;
 
@@ -30,7 +31,12 @@ const Search = () => {
 		<>
 			{isFetching && <Preloader />}
 			<main className="mx-auto bg-white w-[1200px] p-10 my-28 rounded-2xl">
-				<h2 className="text-2xl font-bold">Результаты поиска: </h2>
+				<SearchPanel />
+
+				<h2 className="text-2xl font-bold mt-5">
+					Результаты поиска по запросу{' '}
+					<span className="text-orange">{searchParams.get('name')}</span>:{' '}
+				</h2>
 				<div className="mt-10 flex justify-between flex-wrap">
 					{movies.docs.map((item) => (
 						<MovieCard key={item.id} movie={item} />

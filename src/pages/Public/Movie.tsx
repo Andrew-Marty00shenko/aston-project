@@ -85,8 +85,8 @@ const Movie = () => {
 						</h2>
 
 						{existsInFavorites ? (
-							<div className="flex items-center border px-4 rounded-xl">
-								<p className="font-bold text-lg">Уже в избранном</p>
+							<div className="flex items-center border border-orange px-4 rounded-xl">
+								<p className="font-bold text-lg text-orange">Уже в избранном</p>
 								<img className="w-6 h-6" src={CheckSvg} alt="check" />
 							</div>
 						) : (

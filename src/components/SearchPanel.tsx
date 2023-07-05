@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { historyAPI } from 'services/historyService';
 import { moviesAPI } from 'services/moviesService';
 
+import { useOutside } from 'hooks/useOutside';
 import { useDebounce } from 'hooks/useDebounce';
 
 import SuggestsMovies from './SuggestsMovies';
@@ -20,17 +21,26 @@ interface SearchForm {
 
 const SearchPanel = () => {
 	const navigate = useNavigate();
+	const suggestsRef = useRef<HTMLDivElement>(null);
 	const { register, watch, handleSubmit } = useForm<SearchForm>();
 	const { search } = watch();
 	const debouncedSearch = useDebounce(search, 500);
 	const [trigger, { data: movies }] = moviesAPI.useLazyFetchMovieByQueryQuery();
 	const [addMovieToHistory] = historyAPI.useCreateHistoryMutation();
 
+	const [showSuggests, setShowSuggests] = useState(true);
+
 	useEffect(() => {
-		if (debouncedSearch !== undefined) {
+		if (debouncedSearch !== undefined && debouncedSearch !== '') {
 			trigger({ name: debouncedSearch });
 		}
 	}, [debouncedSearch]);
+
+	const clickOutside = () => {
+		setShowSuggests(false);
+	};
+
+	useOutside(suggestsRef, clickOutside);
 
 	const searchMovieByName = () => {
 		addMovieToHistory({ name: debouncedSearch, createdAt: Date.now() });
@@ -54,7 +64,11 @@ const SearchPanel = () => {
 				</div>
 			</div>
 
-			{debouncedSearch && movies && <SuggestsMovies movies={movies.docs} />}
+			{debouncedSearch && showSuggests && movies && (
+				<div ref={suggestsRef}>
+					<SuggestsMovies movies={movies.docs} />
+				</div>
+			)}
 		</form>
 	);
 };

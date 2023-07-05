@@ -26,6 +26,7 @@ const History = () => {
 
 	return (
 		<main className="mx-auto bg-white p-10 w-[1200px] my-28 rounded-2xl">
+			<h2 className="text-2xl font-bold">Избранное: </h2>
 			{history.length === 0 ? (
 				''
 			) : (

@@ -26,7 +26,7 @@ const HistoryItem = ({ item }: Props) => {
 	};
 
 	return (
-		<li className="text-2xl font-bold p-5 flex items-center justify-between rounded-2xl hover:bg-gray">
+		<li className="text-2xl font-medium p-5 flex items-center justify-between rounded-2xl hover:bg-gray">
 			<Link to={`/search?name=${item.name}`} className="hover:text-orange">
 				{item.name}
 			</Link>
