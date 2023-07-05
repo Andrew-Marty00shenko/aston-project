@@ -40,7 +40,7 @@ const Favorites = () => {
 						<MovieCard
 							key={item.id}
 							icon={TrashSvg}
-							Action={onRemoveMovieFromFavorites}
+							onClick={onRemoveMovieFromFavorites}
 							movie={item}
 						/>
 					))

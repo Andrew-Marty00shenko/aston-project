@@ -8,7 +8,7 @@ interface Props {
 
 const SuggestsMovies = ({ movies }: Props) => {
 	return (
-		<div className="bg-white mt-5 rounded-2xl shadow-2xl w-full overflow-hidden absolute">
+		<div className="bg-white mt-5 rounded-2xl shadow-2xl w-full overflow-hidden absolute z-50">
 			{movies.slice(0, 5).map((item) => {
 				return (
 					<Link key={item.id} to={`movie/${item.id}`}>

@@ -6,17 +6,17 @@ import type { Movie } from 'types/movies';
 
 interface Props {
 	movie: Movie;
-	Action?: (arg: string) => void;
+	onClick?: (arg: string) => void;
 	icon?: string;
 }
 
-const MovieCard = ({ movie, Action, icon }: Props) => {
+const MovieCard = ({ movie, onClick, icon }: Props) => {
 	return (
 		<div className="flex relative flex-col mb-5 justify-between w-[350px] h-[600px] shadow-2xl rounded-2xl p-5">
 			{icon && (
 				<img
 					className="w-8 h-8 cursor-pointer absolute right-4 top-4"
-					onClick={() => Action && Action(movie.key as string)}
+					onClick={() => onClick && onClick(movie.key as string)}
 					src={icon}
 					alt="card"
 				/>
