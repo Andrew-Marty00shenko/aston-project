@@ -1,11 +1,14 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { TelegramShareButton } from 'react-share';
 
 import { moviesAPI } from 'services/moviesService';
 import { favoritesAPI } from 'services/favoritesService';
 
 import { useAppSelector } from 'hooks/redux';
+
+import { FeatureFlagContext } from 'context/featureFlag.context';
 
 import Preloader from 'components/Preloader';
 
@@ -13,10 +16,12 @@ import Button from 'elements/Button';
 
 import StarSvg from 'assets/icons/star.svg';
 import CheckSvg from 'assets/icons/check.svg';
+import TelegramSvg from 'assets/icons/telegram.svg';
 
 const Movie = () => {
 	const navigate = useNavigate();
 	const { id: movieId } = useParams();
+	const { isFeatureFlag } = useContext(FeatureFlagContext);
 	const { isAuth } = useAppSelector((state) => state.auth);
 	const { data: movie, isLoading } = moviesAPI.useFetchMovieByIdQuery({
 		movieId: Number(movieId),
@@ -109,7 +114,7 @@ const Movie = () => {
 
 					<h5 className="font-bold mt-5 text-3xl">О фильме</h5>
 
-					<ul className="w-full mt-5">
+					<ul className="w-full mt-5 border-b pb-5">
 						<li className="flex justify-between mt-4">
 							<span> Год производства </span>
 							<span>{movie.year}</span>
@@ -172,6 +177,26 @@ const Movie = () => {
 							</li>
 						)}
 					</ul>
+
+					{isFeatureFlag && (
+						<div className="flex justify-end">
+							<TelegramShareButton
+								className="flex items-center !bg-gray !px-4 !py-2 mt-5 rounded-xl"
+								url={
+									movie.watchability.items.length !== 0
+										? `${movie.watchability.items[0].url}`
+										: `${window.origin}/movie/${movie.id}`
+								}
+							>
+								Поделиться в telegram
+								<img
+									className="w-8 h-8 ml-2"
+									src={TelegramSvg}
+									alt="telegram"
+								/>
+							</TelegramShareButton>
+						</div>
+					)}
 				</div>
 			</div>
 		</main>

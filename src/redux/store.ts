@@ -6,12 +6,14 @@ import { moviesAPI } from 'services/moviesService';
 import { favoritesAPI } from 'services/favoritesService';
 import { historyAPI } from 'services/historyService';
 import { authMiddleware } from './middlewares/authMiddleware';
+import { featureFlagAPI } from 'services/featureFlagService';
 
 const rootReducers = combineReducers({
 	auth: authSlice,
 	[moviesAPI.reducerPath]: moviesAPI.reducer,
 	[favoritesAPI.reducerPath]: favoritesAPI.reducer,
 	[historyAPI.reducerPath]: historyAPI.reducer,
+	[featureFlagAPI.reducerPath]: featureFlagAPI.reducer,
 });
 
 export const setupStore = () => {
@@ -22,6 +24,7 @@ export const setupStore = () => {
 				.concat(moviesAPI.middleware)
 				.concat(favoritesAPI.middleware)
 				.concat(historyAPI.middleware)
+				.concat(featureFlagAPI.middleware)
 				.concat(authMiddleware),
 	});
 };
