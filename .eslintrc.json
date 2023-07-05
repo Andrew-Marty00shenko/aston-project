@@ -42,7 +42,14 @@
 		"linebreak-style": "off",
 		"@typescript-eslint/no-unsafe-member-access": "off",
 		"@typescript-eslint/no-explicit-any": "warn",
-		"import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+		"import/no-extraneous-dependencies": [
+			"error",
+			{
+				"devDependencies": false,
+				"optionalDependencies": false,
+				"peerDependencies": false
+			}
+		],
 		"@typescript-eslint/no-floating-promises": "off",
 		"@typescript-eslint/no-misused-promises": [
 			"off",

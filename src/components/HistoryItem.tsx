@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { number, shape, string } from 'prop-types';
 
 import { historyAPI } from 'services/historyService';
 
@@ -42,6 +43,14 @@ const HistoryItem = ({ item }: Props) => {
 			</div>
 		</li>
 	);
+};
+
+HistoryItem.propTypes = {
+	item: shape({
+		name: string.isRequired,
+		createdAt: number.isRequired,
+		key: string.isRequired,
+	}),
 };
 
 export default HistoryItem;
