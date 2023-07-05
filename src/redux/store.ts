@@ -4,11 +4,13 @@ import authSlice from './slices/authSlice';
 
 import { moviesAPI } from 'services/moviesService';
 import { favoritesAPI } from 'services/favoritesService';
+import { historyAPI } from 'services/historyService';
 
 const rootReducers = combineReducers({
 	auth: authSlice,
 	[moviesAPI.reducerPath]: moviesAPI.reducer,
 	[favoritesAPI.reducerPath]: favoritesAPI.reducer,
+	[historyAPI.reducerPath]: historyAPI.reducer,
 });
 
 export const setupStore = () => {
@@ -17,7 +19,8 @@ export const setupStore = () => {
 		middleware: (getDefaultMiddleware) =>
 			getDefaultMiddleware({ serializableCheck: false })
 				.concat(moviesAPI.middleware)
-				.concat(favoritesAPI.middleware),
+				.concat(favoritesAPI.middleware)
+				.concat(historyAPI.middleware),
 	});
 };
 

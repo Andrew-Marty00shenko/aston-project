@@ -1,45 +1,71 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
+import {
+	BaseQueryFn,
+	FetchArgs,
+	FetchBaseQueryError,
+	createApi,
+	fetchBaseQuery,
+} from '@reduxjs/toolkit/dist/query/react';
 
 import { toMoviesArray } from './transformResponses/favoritesTransformResponse';
 
 import type { Movie } from 'types/movies';
 
+const rawBaseQuery = fetchBaseQuery({
+	baseUrl: 'https://aston-movies-default-rtdb.firebaseio.com/',
+});
+
+const dynamicBaseQuery: BaseQueryFn<
+	string | FetchArgs,
+	unknown,
+	FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+	const { uid, token }: { uid: string; token: string } =
+		JSON.parse(localStorage.getItem('user') as string) || '';
+
+	if (!uid || !token) {
+		return {
+			error: {
+				status: 400,
+				statusText: 'Bad Request',
+				data: 'No token or uid',
+			},
+		};
+	}
+
+	const urlEnd = typeof args === 'string' ? args : args.url;
+	const adjustedUrl = `${uid}/${urlEnd}?auth=${token}`;
+	const adjustedArgs =
+		typeof args === 'string' ? adjustedUrl : { ...args, url: adjustedUrl };
+
+	return rawBaseQuery(adjustedArgs, api, extraOptions);
+};
+
 export const favoritesAPI = createApi({
 	reducerPath: 'favoritesAPI',
-	baseQuery: fetchBaseQuery({
-		baseUrl: 'https://aston-movies-default-rtdb.firebaseio.com/',
-	}),
+	baseQuery: dynamicBaseQuery,
 	tagTypes: ['Favorites'],
-	endpoints: (build) => {
-		const { uid, token }: { uid: string; token: string } = JSON.parse(
-			localStorage.getItem('user') as string
-		);
-
-		return {
-			getFavoritesMovies: build.query<Movie[], void>({
-				query: () => ({
-					url: `${uid}/favorites.json`,
-					params: { auth: token },
-				}),
-				transformResponse: toMoviesArray,
-				providesTags: ['Favorites'],
+	endpoints: (build) => ({
+		getFavoritesMovies: build.query<Movie[], void>({
+			query: () => ({
+				url: `favorites.json`,
 			}),
-			addMovie: build.mutation<Movie, { movie: Movie }>({
-				query: ({ movie }) => ({
-					url: `${uid}/favorites.json`,
-					params: { auth: token },
-					method: 'POST',
-					body: movie,
-				}),
-				invalidatesTags: ['Favorites'],
+			transformResponse: toMoviesArray,
+			providesTags: ['Favorites'],
+		}),
+		addMovie: build.mutation<Movie, { movie: Movie }>({
+			query: ({ movie }) => ({
+				url: `favorites.json`,
+				method: 'POST',
+				body: movie,
 			}),
-			removeMovie: build.mutation<void, { movieKey: string }>({
-				query: ({ movieKey }) => ({
-					url: `${uid}/favorites/${movieKey}.json`,
-					method: 'DELETE',
-				}),
-				invalidatesTags: ['Favorites'],
+			invalidatesTags: ['Favorites'],
+		}),
+		removeMovie: build.mutation<void, { movieKey: string }>({
+			query: ({ movieKey }) => ({
+				url: `favorites/${movieKey}.json`,
+				method: 'DELETE',
 			}),
-		};
-	},
+			invalidatesTags: ['Favorites'],
+		}),
+	}),
 });
