@@ -5,6 +5,7 @@ import authSlice from './slices/authSlice';
 import { moviesAPI } from 'services/moviesService';
 import { favoritesAPI } from 'services/favoritesService';
 import { historyAPI } from 'services/historyService';
+import { authMiddleware } from './middlewares/authMiddleware';
 
 const rootReducers = combineReducers({
 	auth: authSlice,
@@ -20,7 +21,8 @@ export const setupStore = () => {
 			getDefaultMiddleware({ serializableCheck: false })
 				.concat(moviesAPI.middleware)
 				.concat(favoritesAPI.middleware)
-				.concat(historyAPI.middleware),
+				.concat(historyAPI.middleware)
+				.concat(authMiddleware),
 	});
 };
 
