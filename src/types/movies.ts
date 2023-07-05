@@ -1,3 +1,7 @@
+export interface MoviesResponseFirebase {
+	[key: string]: Movie;
+}
+
 export interface Movies {
 	docs: Movie[];
 	page: number;
@@ -7,6 +11,7 @@ export interface Movies {
 }
 
 export interface Movie {
+	key?: string;
 	id: number;
 	poster: {
 		previewUrl: string;

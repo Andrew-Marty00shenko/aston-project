@@ -8,6 +8,7 @@ const Registration = lazy(
 );
 const Movie = lazy(() => import('pages/Public/Movie'));
 const Search = lazy(() => import('pages/Public/Search'));
+const Favorites = lazy(() => import('pages/Public/Favorites'));
 
 const Public = () => {
 	return (
@@ -18,6 +19,7 @@ const Public = () => {
 				<Route path="/registration" element={<Registration />} />
 				<Route path="/movie/:id" element={<Movie />} />
 				<Route path="/search" element={<Search />} />
+				<Route path="/favorites" element={<Favorites />} />
 			</Routes>
 		</Suspense>
 	);
