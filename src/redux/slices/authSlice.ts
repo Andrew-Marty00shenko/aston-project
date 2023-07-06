@@ -26,6 +26,8 @@ const authSlice = createSlice({
 		},
 		logoutUser: (state) => {
 			state.isAuth = false;
+			state.token = '';
+			state.uid = '';
 		},
 	},
 	extraReducers: (builder) => {
