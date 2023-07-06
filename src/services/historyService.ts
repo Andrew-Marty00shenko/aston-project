@@ -9,6 +9,7 @@ import {
 import { toHistory } from './transformResponses/historyTransformResponse';
 
 import type { History, HistoryForm } from 'types/history';
+import type { RootState } from 'redux/store';
 
 const rawBaseQuery = fetchBaseQuery({
 	baseUrl: 'https://aston-movies-default-rtdb.firebaseio.com/',
@@ -19,8 +20,9 @@ const dynamicBaseQuery: BaseQueryFn<
 	unknown,
 	FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-	const { uid, token }: { uid: string; token: string } =
-		JSON.parse(localStorage.getItem('user') as string) || '';
+	const {
+		auth: { token, uid },
+	} = api.getState() as RootState;
 
 	if (!uid || !token) {
 		return {

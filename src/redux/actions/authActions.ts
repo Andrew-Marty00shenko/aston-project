@@ -5,6 +5,8 @@ import {
 } from '@firebase/auth';
 import { toast } from 'react-hot-toast';
 
+import { setIsAuth } from 'redux/slices/authSlice';
+
 import { auth } from 'firebase.config';
 
 import type { LoginForm } from 'pages/Public/Login/Login';
@@ -12,7 +14,7 @@ import type { RegistrationForm } from 'pages/Public/Registration/Registration';
 
 export const loginAction = createAsyncThunk(
 	'auth/login',
-	async (args: LoginForm, { rejectWithValue }) => {
+	async (args: LoginForm, { rejectWithValue, dispatch }) => {
 		try {
 			const response = await signInWithEmailAndPassword(
 				auth,
@@ -23,6 +25,8 @@ export const loginAction = createAsyncThunk(
 			const uid = response.user.uid;
 
 			if (response.user) {
+				dispatch(setIsAuth({ isAuth: true, token, uid }));
+
 				localStorage.setItem('user', JSON.stringify({ token, uid }));
 			}
 
@@ -35,7 +39,10 @@ export const loginAction = createAsyncThunk(
 );
 export const registrationAction = createAsyncThunk(
 	'auth/registration',
-	async ({ email, password }: RegistrationForm, { rejectWithValue }) => {
+	async (
+		{ email, password }: RegistrationForm,
+		{ rejectWithValue, dispatch }
+	) => {
 		try {
 			const response = await createUserWithEmailAndPassword(
 				auth,
@@ -46,6 +53,8 @@ export const registrationAction = createAsyncThunk(
 			const uid = response.user.uid;
 
 			if (response.user) {
+				dispatch(setIsAuth({ isAuth: true, token, uid }));
+
 				localStorage.setItem('user', JSON.stringify({ token, uid }));
 				toast.success('Вы успешно зарегистрировались на нашем сайте!');
 			}
