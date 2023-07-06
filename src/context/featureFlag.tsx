@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { ReactNode, createContext, useEffect, useState } from 'react';
 
 import { featureFlagAPI } from 'services/featureFlagService';
 
@@ -8,7 +8,11 @@ export interface FeatureFlag {
 
 export const FeatureFlagContext = createContext<FeatureFlag | null>(null);
 
-const FeatureFlagProvider = ({ children }: any) => {
+interface Props {
+	children: ReactNode;
+}
+
+const FeatureFlagProvider = ({ children }: Props) => {
 	const [isFeatureFlag, setIsFeatureFlag] = useState(false);
 	const { data } = featureFlagAPI.useGetStatusFeatureFlagQuery();
 
