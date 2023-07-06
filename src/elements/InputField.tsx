@@ -7,6 +7,7 @@ interface Props {
 	label: string;
 	type: string;
 	error?: FieldError | undefined;
+	//eslint-disable-next-line @typescript-eslint/no-explicit-any
 	register?: UseFormRegister<any>;
 }
 

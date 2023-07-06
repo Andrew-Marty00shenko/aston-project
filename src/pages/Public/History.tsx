@@ -13,9 +13,11 @@ const History = () => {
 	const [removeAllHistory] = historyAPI.useRemoveAllHistoryMutation();
 
 	const onRemoveAllHistory = () => {
-		if (window.confirm('Вы уверены, что хотите удалить всю историю поиска?')) {
+		if (
+			window.confirm('Вы уверены, что хотите удалить всю историю запросов?')
+		) {
 			removeAllHistory()
-				.then(() => toast.success('Вы успешно удалили всю историю поиска!'))
+				.then(() => toast.success('Вы успешно удалили всю историю запросов!'))
 				.catch(() => toast.error('Что-то пошло не так!'));
 		}
 	};
@@ -26,7 +28,7 @@ const History = () => {
 
 	return (
 		<main className="mx-auto bg-white p-10 w-[1200px] my-28 rounded-2xl">
-			<h2 className="text-2xl font-bold">Избранное: </h2>
+			<h2 className="text-2xl font-bold">История запросов: </h2>
 			{history.length === 0 ? (
 				''
 			) : (

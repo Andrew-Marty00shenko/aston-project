@@ -3,6 +3,7 @@ import { UseFormRegister } from 'react-hook-form';
 interface Props<T> {
 	name: string;
 	label: string;
+	//eslint-disable-next-line @typescript-eslint/no-explicit-any
 	register?: UseFormRegister<any>;
 	items: T[];
 }
