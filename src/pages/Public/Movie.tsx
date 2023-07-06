@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
@@ -7,7 +7,7 @@ import { favoritesAPI } from 'services/favoritesService';
 
 import { useAppSelector } from 'hooks/redux';
 
-import { FeatureFlag, FeatureFlagContext } from 'context/featureFlag';
+import { useFeatureFlag } from 'context/featureFlag';
 
 import Preloader from 'components/Preloader';
 
@@ -20,7 +20,7 @@ import ShareTelegram from 'components/ShareTelegram';
 const Movie = () => {
 	const navigate = useNavigate();
 	const { id: movieId } = useParams();
-	const { isFeatureFlag } = useContext(FeatureFlagContext) as FeatureFlag;
+	const { isTelegramShareEnabled } = useFeatureFlag();
 	const { isAuth } = useAppSelector((state) => state.auth);
 	const { data: movie, isLoading } = moviesAPI.useFetchMovieByIdQuery({
 		movieId: Number(movieId),
@@ -177,7 +177,7 @@ const Movie = () => {
 						)}
 					</ul>
 
-					{isFeatureFlag && <ShareTelegram movie={movie} />}
+					{isTelegramShareEnabled && <ShareTelegram movie={movie} />}
 				</div>
 			</div>
 		</main>
