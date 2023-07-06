@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import ReactPaginate from 'react-paginate';
-import { func, string } from 'prop-types';
+import { func, number } from 'prop-types';
 
 interface Props {
 	pagesCount: number;
@@ -62,7 +62,7 @@ const Pagination = ({ pagesCount, setPage }: Props) => {
 };
 
 Pagination.propTypes = {
-	pagesCount: string.isRequired,
+	pagesCount: number.isRequired,
 	setPage: func.isRequired,
 };
 
