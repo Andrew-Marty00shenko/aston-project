@@ -5,10 +5,14 @@ import { loginAction, registrationAction } from 'redux/actions/authActions';
 interface AuthSlice {
 	isAuth: boolean;
 	loading: boolean;
+	token: string;
+	uid: string;
 }
 const initialState: AuthSlice = {
 	isAuth: false,
 	loading: false,
+	token: '',
+	uid: '',
 };
 
 const authSlice = createSlice({
@@ -16,7 +20,9 @@ const authSlice = createSlice({
 	initialState,
 	reducers: {
 		setIsAuth: (state, action) => {
-			state.isAuth = action.payload;
+			state.isAuth = action.payload.isAuth;
+			state.token = action.payload.token;
+			state.uid = action.payload.uid;
 		},
 		logoutUser: (state) => {
 			state.isAuth = false;
