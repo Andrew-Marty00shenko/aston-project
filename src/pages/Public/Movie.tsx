@@ -7,16 +7,20 @@ import { favoritesAPI } from 'services/favoritesService';
 
 import { useAppSelector } from 'hooks/redux';
 
+import { useFeatureFlag } from 'context/featureFlag';
+
 import Preloader from 'components/Preloader';
 
 import Button from 'elements/Button';
 
 import StarSvg from 'assets/icons/star.svg';
 import CheckSvg from 'assets/icons/check.svg';
+import ShareTelegram from 'components/ShareTelegram';
 
 const Movie = () => {
 	const navigate = useNavigate();
 	const { id: movieId } = useParams();
+	const { isTelegramShareEnabled } = useFeatureFlag();
 	const { isAuth } = useAppSelector((state) => state.auth);
 	const { data: movie, isLoading } = moviesAPI.useFetchMovieByIdQuery({
 		movieId: Number(movieId),
@@ -109,7 +113,7 @@ const Movie = () => {
 
 					<h5 className="font-bold mt-5 text-3xl">О фильме</h5>
 
-					<ul className="w-full mt-5">
+					<ul className="w-full mt-5 border-b pb-5">
 						<li className="flex justify-between mt-4">
 							<span> Год производства </span>
 							<span>{movie.year}</span>
@@ -172,6 +176,8 @@ const Movie = () => {
 							</li>
 						)}
 					</ul>
+
+					{isTelegramShareEnabled && <ShareTelegram movie={movie} />}
 				</div>
 			</div>
 		</main>

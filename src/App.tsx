@@ -7,6 +7,8 @@ import { setIsAuth } from 'redux/slices/authSlice';
 
 import Routes from 'routes/Routes';
 
+import FeatureFlagProvider from 'context/featureFlag';
+
 import ErrorBoundary from 'components/ErrorBoundary';
 import Header from 'components/Header';
 
@@ -20,11 +22,13 @@ const App = () => {
 	}, []);
 
 	return (
-		<ErrorBoundary>
-			<Header />
-			<Routes />
-			<Toaster />
-		</ErrorBoundary>
+		<FeatureFlagProvider>
+			<ErrorBoundary>
+				<Header />
+				<Routes />
+				<Toaster />
+			</ErrorBoundary>
+		</FeatureFlagProvider>
 	);
 };
 
