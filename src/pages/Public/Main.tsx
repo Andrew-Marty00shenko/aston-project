@@ -85,7 +85,7 @@ const Main = () => {
 				</div>
 
 				<div className="mt-10 flex justify-between flex-wrap">
-					{data?.docs.map((item) => (
+					{data.docs.map((item) => (
 						<MovieCard key={item.id} movie={item} />
 					))}
 				</div>
