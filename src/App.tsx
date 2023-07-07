@@ -30,7 +30,16 @@ const App = () => {
 			<ErrorBoundary>
 				<Header />
 				<Routes />
-				<Toaster />
+				<Toaster
+					toastOptions={{
+						success: {
+							iconTheme: {
+								primary: '#e84e0e',
+								secondary: '#fff',
+							},
+						},
+					}}
+				/>
 			</ErrorBoundary>
 		</FeatureFlagProvider>
 	);

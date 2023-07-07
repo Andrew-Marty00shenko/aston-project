@@ -18,7 +18,8 @@ const Button = ({ children, className, disabled, icon, onClick }: Props) => {
 					'w-full': className === 'w-full',
 					'!bg-gray !text-black-opacity font-bold rounded-3xl':
 						className === 'wish',
-					'disabled:bg-black': disabled,
+					'disabled:bg-black disabled:cursor-default disabled:hover:opacity-100':
+						disabled,
 				}
 			)}
 			disabled={disabled}

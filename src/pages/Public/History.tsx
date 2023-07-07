@@ -10,7 +10,8 @@ import Button from 'elements/Button';
 
 const History = () => {
 	const { data: history, isLoading } = historyAPI.useGetHistoryQuery();
-	const [removeAllHistory] = historyAPI.useRemoveAllHistoryMutation();
+	const [removeAllHistory, { isLoading: loadingRemoveAll }] =
+		historyAPI.useRemoveAllHistoryMutation();
 
 	const onRemoveAllHistory = () => {
 		if (
@@ -28,18 +29,22 @@ const History = () => {
 
 	return (
 		<main className="mx-auto bg-white p-10 w-[1200px] my-28 rounded-2xl">
-			<h2 className="text-2xl font-bold">История запросов: </h2>
-			{history.length === 0 ? (
-				''
-			) : (
-				<div className="flex justify-end mb-5">
-					<Button onClick={onRemoveAllHistory}>Очистить историю</Button>
-				</div>
-			)}
+			<div className="flex justify-between items-center">
+				<h2 className="text-2xl font-bold">История запросов: </h2>
+				{history.length === 0 ? (
+					''
+				) : (
+					<div className="flex justify-end mb-5">
+						<Button onClick={onRemoveAllHistory} disabled={loadingRemoveAll}>
+							Очистить историю
+						</Button>
+					</div>
+				)}
+			</div>
 
 			<ul>
 				{history.length === 0 ? (
-					<p>
+					<p className="mt-10">
 						Здесь пока ничего нет.{' '}
 						<Link className="underline text-orange" to="/">
 							Перейти к поиску

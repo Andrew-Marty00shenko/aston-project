@@ -24,7 +24,8 @@ const MovieInfo = ({ movie }: Props) => {
 	const navigate = useNavigate();
 	const { isTelegramShareEnabled } = useFeatureFlag();
 	const { isAuth } = useAppSelector((state) => state.auth);
-	const [addMovieToFavorites] = favoritesAPI.useAddMovieMutation();
+	const [addMovieToFavorites, { isLoading }] =
+		favoritesAPI.useAddMovieMutation();
 	const { data: favoritesMovies } = favoritesAPI.useGetFavoritesMoviesQuery();
 
 	const existsInFavorites = favoritesMovies?.find(
@@ -48,17 +49,18 @@ const MovieInfo = ({ movie }: Props) => {
 				</h2>
 
 				{existsInFavorites ? (
-					<div className="flex items-center border border-orange px-4 rounded-xl">
-						<p className="font-bold text-lg text-orange">Уже в избранном</p>
+					<div className="flex items-center border justify-center border-orange w-44 rounded-xl">
+						<p className="font-bold text-lg text-orange">В избранном</p>
 						<img className="w-6 h-6" src={CheckSvg} alt="check" />
 					</div>
 				) : (
 					<Button
+						disabled={isLoading}
 						onClick={onAddMovieToFavorites}
 						className="wish"
 						icon={StarSvg}
 					>
-						Буду смотреть
+						В избранное
 					</Button>
 				)}
 			</div>

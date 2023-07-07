@@ -69,5 +69,12 @@ export const favoritesAPI = createApi({
 			}),
 			invalidatesTags: ['Favorites'],
 		}),
+		removeAllFavorites: build.mutation<void, void>({
+			query: () => ({
+				url: `favorites.json`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: ['Favorites'],
+		}),
 	}),
 });
