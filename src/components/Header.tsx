@@ -11,7 +11,7 @@ import Button from 'elements/Button';
 import LogoSvg from 'assets/images/logo.svg';
 
 const Header = () => {
-	const { isAuth } = useAppSelector((state) => state.auth);
+	const isAuth = useAppSelector((state) => state.auth.isAuth);
 	const dispatch = useAppDispatch();
 
 	const clickLogout = () => {

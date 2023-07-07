@@ -23,7 +23,7 @@ export interface RegistrationForm {
 const Registration = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const { loading } = useAppSelector((state) => state.auth);
+	const loading = useAppSelector((state) => state.auth.loading);
 	const {
 		register,
 		handleSubmit,

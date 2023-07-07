@@ -23,7 +23,7 @@ interface Props {
 const MovieInfo = ({ movie }: Props) => {
 	const navigate = useNavigate();
 	const { isTelegramShareEnabled } = useFeatureFlag();
-	const { isAuth } = useAppSelector((state) => state.auth);
+	const isAuth = useAppSelector((state) => state.auth.isAuth);
 	const [addMovieToFavorites, { isLoading }] =
 		favoritesAPI.useAddMovieMutation();
 	const { data: favoritesMovies } = favoritesAPI.useGetFavoritesMoviesQuery();
