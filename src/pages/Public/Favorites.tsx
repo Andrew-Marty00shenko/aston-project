@@ -1,4 +1,8 @@
+import { useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+
+import { useAppSelector } from 'hooks/redux';
 
 import { favoritesAPI } from 'services/favoritesService';
 
@@ -7,17 +11,20 @@ import Preloader from 'components/Preloader';
 
 import TrashSvg from 'assets/icons/trash.svg';
 import Button from 'elements/Button';
-import { toast } from 'react-hot-toast';
 
 const Favorites = () => {
-	const { data, isLoading } = favoritesAPI.useGetFavoritesMoviesQuery();
+	const isAuth = useAppSelector((state) => state.auth.isAuth);
+	const [getFavoritesMovies, { data, isLoading }] =
+		favoritesAPI.useLazyGetFavoritesMoviesQuery();
 	const [removeMovieFromFavorites] = favoritesAPI.useRemoveMovieMutation();
 	const [removeAllFavorites, { isLoading: loadingRemoveAll }] =
 		favoritesAPI.useRemoveAllFavoritesMutation();
 
-	if (isLoading || !data) {
-		return <Preloader />;
-	}
+	useEffect(() => {
+		if (isAuth) {
+			getFavoritesMovies();
+		}
+	}, [isAuth]);
 
 	const onRemoveMovieFromFavorites = (key: string) => {
 		if (
@@ -37,7 +44,11 @@ const Favorites = () => {
 		}
 	};
 
-	return (
+	if (isLoading) {
+		return <Preloader />;
+	}
+
+	return !data ? null : (
 		<main className="mx-auto bg-white w-[1200px] p-10 my-28 rounded-2xl">
 			<div className="flex justify-between items-center">
 				<h2 className="text-2xl font-bold">Избранное: </h2>

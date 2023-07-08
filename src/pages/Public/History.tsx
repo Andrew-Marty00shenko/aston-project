@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+
+import { useAppSelector } from 'hooks/redux';
 
 import { historyAPI } from 'services/historyService';
 
@@ -9,9 +12,17 @@ import Preloader from 'components/Preloader';
 import Button from 'elements/Button';
 
 const History = () => {
-	const { data: history, isLoading } = historyAPI.useGetHistoryQuery();
+	const isAuth = useAppSelector((state) => state.auth.isAuth);
+	const [getHistory, { data: history, isLoading }] =
+		historyAPI.useLazyGetHistoryQuery();
 	const [removeAllHistory, { isLoading: loadingRemoveAll }] =
 		historyAPI.useRemoveAllHistoryMutation();
+
+	useEffect(() => {
+		if (isAuth) {
+			getHistory();
+		}
+	}, [isAuth]);
 
 	const onRemoveAllHistory = () => {
 		if (
@@ -23,11 +34,11 @@ const History = () => {
 		}
 	};
 
-	if (isLoading || !history) {
+	if (isLoading) {
 		return <Preloader />;
 	}
 
-	return (
+	return !history ? null : (
 		<main className="mx-auto bg-white p-10 w-[1200px] my-28 rounded-2xl">
 			<div className="flex justify-between items-center">
 				<h2 className="text-2xl font-bold">История запросов: </h2>
