@@ -13,11 +13,13 @@ const SuggestsMovies = ({ movies }: Props) => {
 				return (
 					<Link key={item.id} to={`movie/${item.id}`}>
 						<li className=" flex items-center font-semibold text-lg px-5 py-2 hover:bg-gray">
-							<img
-								className="mr-3 w-12 rounded-md"
-								src={item.poster.previewUrl}
-								alt="poster"
-							/>
+							{item.poster && (
+								<img
+									className="mr-3 w-12 rounded-md"
+									src={item.poster.previewUrl}
+									alt="poster"
+								/>
+							)}
 							{item.name}
 						</li>
 					</Link>

@@ -47,7 +47,7 @@ const Main = () => {
 		moviesAPI.useLazyFetchAllMoviesQuery();
 
 	useEffect(() => {
-		getMovies(trigger, { page, limit, year, genres });
+		trigger(getMovies({ page, limit, year, genres }));
 	}, [page, year, genres]);
 
 	useEffect(() => {

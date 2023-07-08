@@ -2,23 +2,21 @@ import { Link } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 
-import { logoutUser } from 'redux/slices/authSlice';
-
 import { historyAPI } from 'services/historyService';
 import { favoritesAPI } from 'services/favoritesService';
 
 import Button from 'elements/Button';
 import LogoSvg from 'assets/images/logo.svg';
+import { logoutAction } from 'redux/actions/authActions';
 
 const Header = () => {
 	const isAuth = useAppSelector((state) => state.auth.isAuth);
 	const dispatch = useAppDispatch();
 
 	const clickLogout = () => {
-		localStorage.removeItem('user');
 		dispatch(historyAPI.util.resetApiState());
 		dispatch(favoritesAPI.util.resetApiState());
-		dispatch(logoutUser());
+		dispatch(logoutAction());
 	};
 
 	return (
