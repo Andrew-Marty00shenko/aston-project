@@ -11,8 +11,8 @@ import { setIsAuth } from 'redux/slices/authSlice';
 
 import { auth } from 'firebase.config';
 
-import type { LoginForm } from 'pages/Public/Login/Login';
-import type { RegistrationForm } from 'pages/Public/Registration/Registration';
+import type { LoginForm } from 'pages/Login/Login';
+import type { RegistrationForm } from 'pages/Registration/Registration';
 
 export const loginAction = createAsyncThunk(
 	'auth/login',
