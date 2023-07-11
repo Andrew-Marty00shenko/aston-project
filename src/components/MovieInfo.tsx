@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
@@ -13,6 +14,7 @@ import Button from 'elements/Button';
 
 import StarSvg from 'assets/icons/star.svg';
 import CheckSvg from 'assets/icons/check.svg';
+import TrashSvg from 'assets/icons/trash.svg';
 
 import type { MovieById } from 'types/movies';
 
@@ -26,11 +28,19 @@ const MovieInfo = ({ movie }: Props) => {
 	const isAuth = useAppSelector((state) => state.auth.isAuth);
 	const [addMovieToFavorites, { isLoading }] =
 		favoritesAPI.useAddMovieMutation();
-	const { data: favoritesMovies } = favoritesAPI.useGetFavoritesMoviesQuery();
+	const [getFavoritesMovies, { data: favoritesMovies }] =
+		favoritesAPI.useLazyGetFavoritesMoviesQuery();
+	const [removeMovieFromFavorites] = favoritesAPI.useRemoveMovieMutation();
+
+	useEffect(() => {
+		if (isAuth) {
+			getFavoritesMovies();
+		}
+	}, [isAuth]);
 
 	const existsInFavorites = favoritesMovies?.find(
 		(item) => item.id === movie?.id
-	);
+	)?.key;
 
 	const onAddMovieToFavorites = () => {
 		if (isAuth) {
@@ -38,6 +48,16 @@ const MovieInfo = ({ movie }: Props) => {
 		} else {
 			navigate('/login');
 			toast.error('Для добавления фильма в избранное нужно войти в аккаунт!');
+		}
+	};
+
+	const onRemoveMovieFromFavorites = () => {
+		if (
+			window.confirm('Вы уверены, что хотите удалить этот фильм из избранного?')
+		) {
+			removeMovieFromFavorites({ movieKey: existsInFavorites as string })
+				.then(() => toast.success('Вы успешно удалили фильм из избранного!'))
+				.catch(() => toast.error('Что-то пошло не так!'));
 		}
 	};
 
@@ -49,9 +69,16 @@ const MovieInfo = ({ movie }: Props) => {
 				</h2>
 
 				{existsInFavorites ? (
-					<div className="flex items-center border justify-center border-orange w-44 rounded-xl">
-						<p className="font-bold text-lg text-orange">В избранном</p>
-						<img className="w-6 h-6" src={CheckSvg} alt="check" />
+					<div className="flex">
+						<div className="flex items-center border h-14 justify-center border-orange w-44 rounded-xl">
+							<p className="font-bold text-lg text-orange">В избранном</p>
+							<img className="w-6 h-6" src={CheckSvg} alt="check" />
+						</div>
+						<div className="ml-2">
+							<Button icon={TrashSvg} onClick={onRemoveMovieFromFavorites}>
+								{''}
+							</Button>
+						</div>
 					</div>
 				) : (
 					<Button

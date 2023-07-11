@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 
-import { useAppDispatch } from 'hooks/redux';
-import { useReadLocalStorage } from 'hooks/useReadLocalStorage';
+import { authCheckAction } from 'redux/actions/authActions';
 
-import { setIsAuth } from 'redux/slices/authSlice';
+import { useAppDispatch } from 'hooks/redux';
 
 import Routes from 'routes/Routes';
 
@@ -13,17 +12,12 @@ import FeatureFlagProvider from 'context/featureFlag';
 import ErrorBoundary from 'components/ErrorBoundary';
 import Header from 'components/Header';
 
-import type { User } from 'types/user';
-
 const App = () => {
 	const dispatch = useAppDispatch();
-	const user: User | null = useReadLocalStorage('user');
 
 	useEffect(() => {
-		if (user) {
-			dispatch(setIsAuth({ isAuth: true, token: user.token, uid: user.uid }));
-		}
-	}, [user]);
+		dispatch(authCheckAction());
+	}, []);
 
 	return (
 		<FeatureFlagProvider>

@@ -24,7 +24,7 @@ const Button = ({ children, className, disabled, icon, onClick }: Props) => {
 			)}
 			disabled={disabled}
 		>
-			{icon && <img src={icon} className="w-6 h-6 mr-2" alt="button" />}
+			{icon && <img src={icon} className="w-6 h-6" alt="button" />}
 			{children}
 		</button>
 	);

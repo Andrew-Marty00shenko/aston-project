@@ -1,17 +1,16 @@
 import { lazy, Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Preloader from 'components/Preloader';
 
-const Main = lazy(() => import('pages/Public/Main'));
-const Login = lazy(() => import('pages/Public/Login/Login'));
-const Registration = lazy(
-	() => import('pages/Public/Registration/Registration')
-);
-const Movie = lazy(() => import('pages/Public/Movie'));
-const Search = lazy(() => import('pages/Public/Search'));
-const Favorites = lazy(() => import('pages/Public/Favorites'));
-const History = lazy(() => import('pages/Public/History'));
+const Main = lazy(() => import('pages/Main'));
+const Login = lazy(() => import('pages/Login/Login'));
+const Registration = lazy(() => import('pages/Registration/Registration'));
+const Movie = lazy(() => import('pages/Movie'));
+const Search = lazy(() => import('pages/Search'));
+const Favorites = lazy(() => import('pages/Favorites'));
+const History = lazy(() => import('pages/History'));
+const NotFound = lazy(() => import('pages/NotFound'));
 
 const Public = () => {
 	return (
@@ -24,6 +23,8 @@ const Public = () => {
 				<Route path="/search" element={<Search />} />
 				<Route path="/favorites" element={<Favorites />} />
 				<Route path="/history" element={<History />} />
+				<Route path="/not-found" element={<NotFound />} />
+				<Route path="*" element={<Navigate to="/not-found" />} />
 			</Routes>
 		</Suspense>
 	);

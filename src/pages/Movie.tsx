@@ -9,13 +9,25 @@ import MovieInfo from 'components/MovieInfo';
 
 const Movie = () => {
 	const { id: movieId } = useParams();
-	const { data: movie, isLoading } = moviesAPI.useFetchMovieByIdQuery({
+	const {
+		data: movie,
+		isLoading,
+		isError,
+	} = moviesAPI.useFetchMovieByIdQuery({
 		movieId: Number(movieId),
 	});
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
+
+	if (isError) {
+		return (
+			<p className="mt-28 text-center font-bold text-3xl">
+				Что-то пошло не так!
+			</p>
+		);
+	}
 
 	if (isLoading || !movie) {
 		return <Preloader />;

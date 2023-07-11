@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { loginAction, registrationAction } from 'redux/actions/authActions';
+import {
+	loginAction,
+	logoutAction,
+	registrationAction,
+} from 'redux/actions/authActions';
 
 interface AuthSlice {
 	isAuth: boolean;
@@ -24,18 +28,15 @@ const authSlice = createSlice({
 			state.token = action.payload.token;
 			state.uid = action.payload.uid;
 		},
-		logoutUser: (state) => {
-			state.isAuth = false;
-			state.token = '';
-			state.uid = '';
-		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(loginAction.pending, (state) => {
 			state.loading = true;
 		});
-		builder.addCase(loginAction.fulfilled, (state) => {
+		builder.addCase(loginAction.fulfilled, (state, action) => {
 			state.isAuth = true;
+			state.token = action.payload.token;
+			state.uid = action.payload.uid;
 			state.loading = false;
 		});
 		builder.addCase(loginAction.rejected, (state) => {
@@ -44,14 +45,28 @@ const authSlice = createSlice({
 		builder.addCase(registrationAction.pending, (state) => {
 			state.loading = true;
 		});
-		builder.addCase(registrationAction.fulfilled, (state) => {
+		builder.addCase(registrationAction.fulfilled, (state, action) => {
 			state.isAuth = true;
+			state.token = action.payload.token;
+			state.uid = action.payload.uid;
 			state.loading = false;
 		});
 		builder.addCase(registrationAction.rejected, (state) => {
 			state.loading = false;
 		});
+		builder.addCase(logoutAction.pending, (state) => {
+			state.loading = true;
+		});
+		builder.addCase(logoutAction.fulfilled, (state) => {
+			state.isAuth = false;
+			state.token = '';
+			state.uid = '';
+			state.loading = false;
+		});
+		builder.addCase(logoutAction.rejected, (state) => {
+			state.loading = false;
+		});
 	},
 });
-export const { setIsAuth, logoutUser } = authSlice.actions;
+export const { setIsAuth } = authSlice.actions;
 export default authSlice.reducer;

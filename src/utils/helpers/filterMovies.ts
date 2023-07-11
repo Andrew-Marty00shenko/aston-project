@@ -5,24 +5,20 @@ interface TriggerProps {
 	genres?: string;
 }
 
-export const getMovies = (
-	trigger: ({ page, limit, year, genres }: TriggerProps) => void,
-	{ page, limit, year, genres }: TriggerProps
-) => {
+export const getMovies = ({ page, limit, year, genres }: TriggerProps) => {
 	switch (true) {
 		case year === 'все годы' && genres === 'все жанры':
-			trigger({ page, limit });
-			break;
+			return {
+				page,
+				limit,
+			};
 		case year !== 'все годы' && genres !== 'все жанры':
-			trigger({ page, limit, year, genres });
-			break;
+			return { page, limit, year, genres };
 		case year !== 'все годы' && genres === 'все жанры':
-			trigger({ page, limit, year });
-			break;
+			return { page, limit, year };
 		case year === 'все годы' && genres !== 'все жанры':
-			trigger({ page, limit, genres });
-			break;
+			return { page, limit, genres };
 		default:
-			trigger({ page, limit });
+			return { page, limit };
 	}
 };
